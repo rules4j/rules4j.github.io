@@ -9,6 +9,10 @@
 * Library compiles and loads rules as `.class` files accross all instances
 * Your rules run at native speed
 
+## First release is coming soon!
+
+Check back on [Github](https://github.com/rules4j/rules4j) in a few days
+
 ## Example Rule
 
 ```kotlin
