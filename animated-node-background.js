@@ -530,8 +530,14 @@ class AnimatedNodeBackground extends HTMLElement {
   }
 
   getNumberAttr(name, fallback, min, max) {
-    const value = Number(this.getAttribute(name));
-    if (Number.isNaN(value)) return fallback;
+    const rawValue = this.getAttribute(name);
+    if (rawValue === null) return fallback;
+
+    const normalizedValue = rawValue.trim();
+    if (normalizedValue === "") return fallback;
+
+    const value = Number(normalizedValue);
+    if (!Number.isFinite(value)) return fallback;
     return Math.max(min, Math.min(max, value));
   }
 

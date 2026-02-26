@@ -84,6 +84,16 @@ main {
 .brand-wordmark {
   width: min(188px, 36vw);
   max-width: 100%;
+  opacity: 0;
+  transform: translateY(-0.2rem) scale(0.985);
+  transition:
+    opacity 240ms ease,
+    transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.app-bar.logo-docked .brand-wordmark {
+  opacity: 1;
+  transform: translateY(0) scale(1);
 }
 
 .top-nav {
@@ -181,6 +191,17 @@ main {
   width: 70%;
   max-width: 100%;
   height: auto;
+  transition: opacity 180ms linear;
+}
+
+.logo-fly {
+  position: fixed;
+  z-index: 60;
+  width: 70%;
+  height: auto;
+  pointer-events: none;
+  transform-origin: top left;
+  will-change: left, top, width, opacity;
 }
 
 .hero-header {
@@ -375,9 +396,9 @@ code {
   --md-elevated-card-container-elevation: 1;
 }
 
-.surface-card h2 {
+.surface-card h3 {
   margin: 0;
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   line-height: 2.25rem;
   letter-spacing: 0;
   font-weight: 400;
