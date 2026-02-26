@@ -86,8 +86,8 @@
           </a>
 
           <nav class="top-nav" aria-label="Primary">
-            <md-text-button href="#features">Features</md-text-button>
-            <md-text-button href="#platform">Platform</md-text-button>
+            <md-text-button id="headerFeaturesButton" href="#features">Features</md-text-button>
+            <md-text-button href="#platform">Use it in your project</md-text-button>
             <md-text-button href="https://github.com/rules4j/rules4j">Docs</md-text-button>
           </nav>
 
@@ -105,6 +105,14 @@
       <main>
         <section class="hero-band" id="features">
           <div class="container">
+            <p class="announcement-pill" role="status">
+              <span class="material-symbols-rounded announcement-pill-icon" aria-hidden="true"
+                >campaign</span
+              >
+              <span>First version coming soon!</span>
+              <a href="https://github.com/rules4j/rules4j/releases">Track updates</a>
+            </p>
+            
             <div class="hero-logo-row">
               <img
                 id="heroLogo"
@@ -120,7 +128,7 @@
                 <p class="eyebrow label-large">JVM-native rule engine</p>
                 <h1 class="display-large">Dynamic rules, native performance.</h1>
                 <p class="intro body-large">
-                  With no-restart updates at runtime, keep your business logic in your code.
+                  With no-restart updates at runtime, confidently keep your business logic in your code.
                 </p>
               </header>
 
@@ -166,6 +174,14 @@
                       >check</span
                     >
                   </md-list-item>
+                  <md-list-item class="feature-item" data-feature="videoDemo" type="button">
+                    <div slot="headline">Update Rules at Runtime</div>
+                    <div slot="supporting-text">See a quick walkthrough of the update process.</div>
+                    <span class="material-symbols-rounded" slot="start">play_circle</span>
+                    <span class="material-symbols-rounded feature-selected-indicator" slot="end"
+                      >check</span
+                    >
+                  </md-list-item>
                 </md-list>
               </div>
 
@@ -176,7 +192,21 @@
                     <span class="code-file"></span>
                     <span class="code-dot"></span>
                   </div>
-                  <pre><code id="codeExample" class="hljs language-java"></code></pre>
+                  <div id="codePanel">
+                    <pre><code id="codeExample" class="hljs language-java"></code></pre>
+                  </div>
+                  <div id="videoPanel" class="video-panel" hidden>
+                    <video
+                      id="featureVideo"
+                      controls
+                      preload="metadata"
+                      playsinline
+                      aria-label="Rules4J feature demonstration video"
+                    >
+                      <source id="featureVideoSource" type="video/mp4" />
+                      Your browser does not support the video tag.
+                    </video>
+                  </div>
                 </md-elevated-card>
               </div>
             </div>
@@ -188,7 +218,7 @@
           <md-outlined-button href="https://github.com/rules4j/rules4j">Read Docs</md-outlined-button>
         </div>
 
-        <section class="platform-band" id="platform">
+        <section class="platform-band" id="features">
           <div class="container platform-grid">
             <md-elevated-card class="surface-card">
               <h3>Designed for Performance</h3>
@@ -230,6 +260,38 @@
           </div>
         </section>
       </main>
+
+      <footer class="site-footer">
+        <div class="container site-footer-grid">
+          <div class="site-footer-brand">
+            <img
+              class="site-footer-logo"
+              src="Rules4J.svg"
+              data-theme-logo
+              alt="Rules4J"
+            />
+            <p class="site-footer-tagline">
+              JVM rule engine for dynamic and native performance rule execution.
+            </p>
+          </div>
+
+          <nav class="site-footer-nav" aria-label="Footer">
+            <div class="site-footer-group">
+              <h4>Product</h4>
+              <a href="#roadmap">Roadmap</a>
+              <a href="#support">Enterprise Support</a>
+            </div>
+            <div class="site-footer-group">
+              <h4>Resources</h4>
+              <a href="https://github.com/rules4j/rules4j">Docs</a>
+              <a href="https://github.com/rules4j/rules4j">GitHub</a>
+            </div>
+          </nav>
+        </div>
+        <div class="container site-footer-meta">
+          <p>© 2026 Rules4J</p>
+        </div>
+      </footer>
     </div>
 
     <script
@@ -256,7 +318,12 @@
       const themeToggleIcon = document.getElementById("themeToggleIcon");
       const codeTitle = document.getElementById("codeTitle");
       const codeExample = document.getElementById("codeExample");
+      const codePanel = document.getElementById("codePanel");
+      const videoPanel = document.getElementById("videoPanel");
+      const featureVideo = document.getElementById("featureVideo");
+      const featureVideoSource = document.getElementById("featureVideoSource");
       const featureList = document.getElementById("featureList");
+      const headerFeaturesButton = document.getElementById("headerFeaturesButton");
       const hljsTheme = document.getElementById("hljsTheme");
       const appBar = document.querySelector(".app-bar");
       const heroLogo = document.getElementById("heroLogo");
@@ -369,6 +436,11 @@ RuleFlowExecution execution =
 // Optional
 RuleFlowResult result = 
     execution.toCompletableFuture().get(40, MILLISECONDS);`,
+        },
+        videoDemo: {
+          title: "Update Rules at Runtime",
+          type: "video",
+          videoSrc: "https://static.vecteezy.com/system/resources/previews/048/479/658/mp4/text-with-coming-soon-effect-glitch-on-black-background-free-video.mp4",
         },
       };
 
@@ -495,17 +567,68 @@ RuleFlowResult result =
         render();
       }
 
+      function scrollToPageBottomFast() {
+        const targetTop = Math.max(
+          document.documentElement.scrollHeight - window.innerHeight,
+          0,
+        );
+        const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if (prefersReducedMotion) {
+          window.scrollTo(0, targetTop);
+          return;
+        }
+
+        const startTop = window.scrollY;
+        const distance = targetTop - startTop;
+        if (Math.abs(distance) < 2) {
+          return;
+        }
+
+        const durationMs = 300;
+        const startTime = performance.now();
+
+        function easeOutCubic(t) {
+          return 1 - Math.pow(1 - t, 3);
+        }
+
+        function tick(now) {
+          const progress = Math.min((now - startTime) / durationMs, 1);
+          const eased = easeOutCubic(progress);
+          window.scrollTo(0, Math.round(startTop + distance * eased));
+          if (progress < 1) {
+            window.requestAnimationFrame(tick);
+          }
+        }
+
+        window.requestAnimationFrame(tick);
+      }
+
       function setFeature(key) {
         const selected = snippets[key];
         if (!selected) {
           return;
         }
         codeTitle.textContent = selected.title;
-        codeExample.textContent = selected.code;
-        codeExample.className = `hljs language-${selected.language || "java"}`;
-        if (window.hljs) {
-          delete codeExample.dataset.highlighted;
-          window.hljs.highlightElement(codeExample);
+        if (selected.type === "video") {
+          codePanel.hidden = true;
+          videoPanel.hidden = false;
+          const nextVideoSrc = selected.videoSrc || "";
+          const currentVideoSrc = featureVideoSource.getAttribute("src") || "";
+          if (currentVideoSrc !== nextVideoSrc) {
+            featureVideo.pause();
+            featureVideoSource.setAttribute("src", nextVideoSrc);
+            featureVideo.load();
+          }
+        } else {
+          videoPanel.hidden = true;
+          codePanel.hidden = false;
+          featureVideo.pause();
+          codeExample.textContent = selected.code;
+          codeExample.className = `hljs language-${selected.language || "java"}`;
+          if (window.hljs) {
+            delete codeExample.dataset.highlighted;
+            window.hljs.highlightElement(codeExample);
+          }
         }
 
         document.querySelectorAll("md-list-item.feature-item").forEach((item) => {
@@ -553,6 +676,11 @@ RuleFlowResult result =
         if (!isThemeMode(themeMode)) {
           syncUiTheme();
         }
+      });
+
+      headerFeaturesButton?.addEventListener("click", (event) => {
+        event.preventDefault();
+        scrollToPageBottomFast();
       });
 
       syncUiTheme();
