@@ -316,25 +316,116 @@ class AnimatedNodeBackground extends HTMLElement {
       slowSpeed: 0.12 + Math.random() * 0.08,
     }));
 
-    this.lines = [];
-    for (let i = 0; i < this.nodes.length; i += 1) {
-      for (let j = i + 1; j < this.nodes.length; j += 1) {
-        const dx = this.nodes[i].baseX - this.nodes[j].baseX;
-        const dy = this.nodes[i].baseY - this.nodes[j].baseY;
-        const distance = Math.sqrt(dx * dx + dy * dy);
+    this.assignDagRanks();
+    this.lines = this.buildDagLines();
 
-        if (distance < 22) {
-          this.lines.push({
-            id: `${i}-${j}`,
-            a: i,
-            b: j,
-            opacity: Math.pow(1 - distance / 22, 1.5),
-          });
+    this.mountShapes();
+  }
+
+  assignDagRanks() {
+    const layerCount = Math.max(3, Math.min(10, Math.round(Math.sqrt(this.nodes.length) * 0.8)));
+    const sorted = [...this.nodes].sort((a, b) => {
+      if (a.baseY !== b.baseY) return a.baseY - b.baseY;
+      if (a.baseX !== b.baseX) return a.baseX - b.baseX;
+      return a.id - b.id;
+    });
+    const nodesPerLayer = Math.ceil(this.nodes.length / layerCount);
+
+    for (let i = 0; i < sorted.length; i += 1) {
+      sorted[i].rank = Math.min(layerCount - 1, Math.floor(i / nodesPerLayer));
+    }
+  }
+
+  buildDagLines() {
+    const lines = [];
+    const edgeSet = new Set();
+    const incomingCount = Array(this.nodes.length).fill(0);
+
+    const maxRank = this.nodes.reduce((acc, node) => Math.max(acc, node.rank), 0);
+    const nodesByRank = Array.from({ length: maxRank + 1 }, () => []);
+    for (let i = 0; i < this.nodes.length; i += 1) {
+      nodesByRank[this.nodes[i].rank].push(this.nodes[i].id);
+    }
+
+    const addEdge = (fromId, toId) => {
+      const from = this.nodes[fromId];
+      const to = this.nodes[toId];
+      if (!from || !to || from.rank >= to.rank) return false;
+
+      const edgeId = `${fromId}->${toId}`;
+      if (edgeSet.has(edgeId)) return false;
+
+      const dx = from.baseX - to.baseX;
+      const dy = from.baseY - to.baseY;
+      const distance = Math.hypot(dx, dy);
+      const opacity = Math.pow(Math.max(0.18, 1 - distance / 32), 1.35);
+
+      lines.push({
+        id: edgeId,
+        a: fromId,
+        b: toId,
+        opacity,
+      });
+      edgeSet.add(edgeId);
+      incomingCount[toId] += 1;
+      return true;
+    };
+
+    for (let rank = 0; rank < nodesByRank.length - 1; rank += 1) {
+      const sources = nodesByRank[rank];
+      for (let s = 0; s < sources.length; s += 1) {
+        const sourceId = sources[s];
+        const source = this.nodes[sourceId];
+        const candidates = [];
+        const maxTargetRank = Math.min(rank + 2, nodesByRank.length - 1);
+
+        for (let targetRank = rank + 1; targetRank <= maxTargetRank; targetRank += 1) {
+          const targets = nodesByRank[targetRank];
+          for (let t = 0; t < targets.length; t += 1) {
+            const targetId = targets[t];
+            const target = this.nodes[targetId];
+            const dx = source.baseX - target.baseX;
+            const dy = source.baseY - target.baseY;
+            const distance = Math.hypot(dx, dy);
+            const rankPenalty = (targetRank - rank - 1) * 5;
+            candidates.push({ targetId, score: distance + rankPenalty });
+          }
+        }
+
+        candidates.sort((a, b) => a.score - b.score);
+        const outDegree = 1 + Math.floor(Math.random() * 2);
+        for (let i = 0; i < outDegree && i < candidates.length; i += 1) {
+          addEdge(sourceId, candidates[i].targetId);
         }
       }
     }
 
-    this.mountShapes();
+    for (let rank = 1; rank < nodesByRank.length; rank += 1) {
+      for (let i = 0; i < nodesByRank[rank].length; i += 1) {
+        const targetId = nodesByRank[rank][i];
+        if (incomingCount[targetId] > 0) continue;
+
+        const target = this.nodes[targetId];
+        let bestSourceId = -1;
+        let bestDistance = Number.POSITIVE_INFINITY;
+        const minSourceRank = Math.max(0, rank - 2);
+        for (let sourceRank = minSourceRank; sourceRank < rank; sourceRank += 1) {
+          for (let j = 0; j < nodesByRank[sourceRank].length; j += 1) {
+            const sourceId = nodesByRank[sourceRank][j];
+            const source = this.nodes[sourceId];
+            const distance = Math.hypot(source.baseX - target.baseX, source.baseY - target.baseY);
+            if (distance < bestDistance) {
+              bestDistance = distance;
+              bestSourceId = sourceId;
+            }
+          }
+        }
+
+        if (bestSourceId !== -1) addEdge(bestSourceId, targetId);
+      }
+    }
+
+    return lines;
   }
 
   mountShapes() {

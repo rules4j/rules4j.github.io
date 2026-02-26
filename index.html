@@ -10,7 +10,7 @@
     />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Rules4J | Java Rules Engine" />
+    <meta name="twitter:title" content="Rules4J | Java Rule Engine" />
     <meta
       name="twitter:description"
       content="Build fast, readable, and testable business rules in Java."
@@ -27,9 +27,41 @@
     />
     <link rel="stylesheet" href="./tokens.css" />
     <link rel="stylesheet" href="./components.css" />
+    <link
+      id="hljsTheme"
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github-dark.min.css"
+    />
     <title>Rules4J | Java Rules Engine</title>
   </head>
   <body>
+    <script>
+      (() => {
+        const themeStorageKey = "rules4j-theme-mode";
+        const media = window.matchMedia("(prefers-color-scheme: dark)");
+        let storedTheme = null;
+
+        try {
+          const value = localStorage.getItem(themeStorageKey);
+          if (value === "light" || value === "dark") {
+            storedTheme = value;
+          }
+        } catch (error) {
+          // Ignore storage access failures in restricted browsing contexts.
+        }
+
+        const initialTheme = storedTheme || (media.matches ? "dark" : "light");
+        const hljsTheme = document.getElementById("hljsTheme");
+        if (hljsTheme) {
+          hljsTheme.href =
+            initialTheme === "light"
+              ? "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github.min.css"
+              : "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/base16/windows-high-contrast.min.css";
+        }
+        document.body.classList.add(initialTheme);
+        document.body.dataset.uiTheme = initialTheme;
+      })();
+    </script>
     <animated-node-background
       id="bg"
       node-count="80"
@@ -46,7 +78,8 @@
           <a class="brand" href="#" aria-label="Rules4J Home">
               <img
               class="brand-wordmark"
-              src="rules4j_logo.png"
+              src="Rules4J.svg"
+              data-theme-logo
               alt="Rules4J"
             />
           </a>
@@ -57,40 +90,59 @@
             <md-text-button href="https://github.com/rules4j/rules4j">Docs</md-text-button>
           </nav>
 
-          <md-filled-button href="https://github.com/rules4j/rules4j">Start Building</md-filled-button>
+          <div class="app-actions">
+            <button id="themeToggle" class="theme-switch" type="button" aria-label="Theme mode">
+              <span id="themeToggleIcon" class="theme-switch-icon material-symbols-rounded" aria-hidden="true"
+                >lightbulb</span
+              >
+            </button>
+            <md-filled-button href="https://github.com/rules4j/rules4j">Github</md-filled-button>
+          </div>
         </div>
       </header>
 
       <main>
         <section class="hero-band" id="features">
           <div class="container">
+            <div class="hero-logo-row">
+              <img
+                class="hero-logo"
+                src="Rules4J.svg"
+                data-theme-logo
+                alt="Rules4J"
+              />
+            </div>
+
             <div class="hero-grid">
               <header class="hero-header">
-                <p class="eyebrow label-large">Enterprise Rule Orchestration</p>
-                <h1 class="display-large">Enterprise-grade rule automation for serious production systems.</h1>
+                <p class="eyebrow label-large">JVM-native rule engine</p>
+                <h1 class="display-large">Dynamic rules, native performance.</h1>
                 <p class="intro body-large">
-                  Standardize policy logic, control precedence, and expose explainable decisions
-                  across payments, risk, onboarding, and compliance workflows.
+                  With no-restart updates at runtime, keep your business logic in your code.
                 </p>
-                <div class="hero-cta">
-                  <md-filled-button href="https://github.com/rules4j/rules4j">Get Started</md-filled-button>
-                  <md-outlined-button href="https://github.com/rules4j/rules4j">Read Docs</md-outlined-button>
-                </div>
               </header>
 
               <div class="hero-left">
                 <md-list class="feature-list" id="featureList" activatable>
-                  <md-list-item class="feature-item is-active" data-feature="dsl" type="button" active>
-                    <div slot="headline">Fluent DSL</div>
-                    <div slot="supporting-text">Readable policy code with minimal boilerplate.</div>
+                  <md-list-item class="feature-item is-active" data-feature="rules" type="button" active>
+                    <div slot="headline">Define your rules</div>
+                    <div slot="supporting-text">Fluent Java/Kotlin API with minimal boilerplate.</div>
+                    <span class="material-symbols-rounded" slot="start">code</span>
+                    <span class="material-symbols-rounded feature-selected-indicator" slot="end"
+                      >check</span
+                    >
+                  </md-list-item>
+                  <md-list-item class="feature-item" data-feature="dsl" type="button">
+                    <div slot="headline">Define your rule flow</div>
+                    <div slot="supporting-text">Directed Acyclic Graphs (DAGs) for complex rule dependencies.</div>
                     <span class="material-symbols-rounded" slot="start">code</span>
                     <span class="material-symbols-rounded feature-selected-indicator" slot="end"
                       >check</span
                     >
                   </md-list-item>
                   <md-list-item class="feature-item" data-feature="compose" type="button">
-                    <div slot="headline">Rule Composition</div>
-                    <div slot="supporting-text">Build modular chains and reusable decision blocks.</div>
+                    <div slot="headline">Dynamic Rule Composition</div>
+                    <div slot="supporting-text">Either use your application's classes or define dynamic rules via Kotlin.</div>
                     <span class="material-symbols-rounded" slot="start">account_tree</span>
                     <span class="material-symbols-rounded feature-selected-indicator" slot="end"
                       >check</span
@@ -119,34 +171,61 @@
                 <md-elevated-card class="code-card">
                   <div class="code-head">
                     <span id="codeTitle">Fluent DSL</span>
-                    <span class="code-file">RuleConfig.java</span>
+                    <span class="code-file"></span>
                     <span class="code-dot"></span>
                   </div>
-                  <pre><code id="codeExample"></code></pre>
+                  <pre><code id="codeExample" class="hljs language-java"></code></pre>
                 </md-elevated-card>
               </div>
             </div>
           </div>
         </section>
 
+        <div class="container center-actions">
+          <md-filled-button href="https://github.com/rules4j/rules4j">Get Started</md-filled-button>
+          <md-outlined-button href="https://github.com/rules4j/rules4j">Read Docs</md-outlined-button>
+        </div>
+
         <section class="platform-band" id="platform">
           <div class="container platform-grid">
             <md-elevated-card class="surface-card">
-              <h2>Built for Enterprise Teams</h2>
+              <h3>Built for Enterprise Teams</h3>
               <p>
                 Designed for clean separation of policy and service logic with predictable runtime
                 behavior and maintainable code ownership.
               </p>
             </md-elevated-card>
             <md-elevated-card class="surface-card">
-              <h2>Production-friendly Runtime</h2>
+              <h3>Production-friendly Runtime</h3>
               <p>
                 Optimized for low-latency execution in JVM services and adaptable integration with
                 existing application frameworks.
               </p>
             </md-elevated-card>
             <md-elevated-card class="surface-card">
-              <h2>Operational Transparency</h2>
+              <h3>Operational Transparency</h3>
+              <p>
+                Trace and inspect rule outcomes to support governance, incident response, and
+                compliance workflows.
+              </p>
+            </md-elevated-card>
+
+            <md-elevated-card class="surface-card">
+              <h3>Operational Transparency</h3>
+              <p>
+                Trace and inspect rule outcomes to support governance, incident response, and
+                compliance workflows.
+              </p>
+            </md-elevated-card>
+            <md-elevated-card class="surface-card">
+              <h3>Operational Transparency</h3>
+              <p>
+                Trace and inspect rule outcomes to support governance, incident response, and
+                compliance workflows.
+              </p>
+            </md-elevated-card>
+            <md-elevated-card class="surface-card">
+              <h3>Operational Transparency</h3>
               <p>
                 Trace and inspect rule outcomes to support governance, incident response, and
                 compliance workflows.
@@ -169,43 +248,104 @@
     <script type="module" src="https://unpkg.com/@material/web@2.4.0/list/list.js?module"></script>
     <script type="module" src="https://unpkg.com/@material/web@2.4.0/list/list-item.js?module"></script>
     <script type="module" src="https://unpkg.com/@material/web@2.4.0/labs/card/elevated-card.js?module"></script>
-    <script type="module" src="./animated-node-background.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/kotlin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/xml.min.js"></script>
+    <script type="module" src="./animated-node-background.js?v=20260226211843"></script>
     <script type="module">
       const bg = document.getElementById("bg");
       const media = window.matchMedia("(prefers-color-scheme: dark)");
+      const themeToggle = document.getElementById("themeToggle");
+      const themeToggleIcon = document.getElementById("themeToggleIcon");
       const codeTitle = document.getElementById("codeTitle");
       const codeExample = document.getElementById("codeExample");
       const featureList = document.getElementById("featureList");
+      const hljsTheme = document.getElementById("hljsTheme");
+      const themeStorageKey = "rules4j-theme-mode";
+      const themedLogos = document.querySelectorAll("img[data-theme-logo]");
+      const logoByTheme = {
+        light: "Rules4J.svg",
+        dark: "Rules4J-dark.svg",
+      };
+      const hljsThemeByMode = {
+        light: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github.min.css",
+        dark: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/base16/windows-high-contrast.min.css",
+      };
+      let themeMode = readStoredThemeMode();
       featureList.style.padding = "0";
       featureList.style.borderRadius = "var(--md-sys-shape-corner-large)";
       featureList.style.overflow = "hidden";
 
       const snippets = {
+        rules: {
+          title: "Rule Definition",
+          language: "java",
+          code: `var velocity = RuleDefinition.create("velocity")
+          .dynamicCondition()
+          .dynamicAction()
+          .build();
+
+var geo = RuleDefinition.create("geo")
+          .dynamicCondition()
+          .dynamicAction()
+          .build();
+
+var merchant = RuleDefinition.create("merchant")
+          .dynamicCondition()
+          .dynamicAction()
+          .build();
+`,
+        },
         dsl: {
-          title: "Fluent DSL",
-          code: `RulesEngine engine = Rules4j.engine();
+          title: "Flow Definition",
+          language: "java",
+          code: `var paymentFlow = 
+          RuleFlowDefinition.create("payment-screening")
+.fork(
+    branch -> branch.then(velocity),
+    branch -> branch.then(geo),
+    branch -> branch.then(merchant))
+.then(score)
+.then(decision)
+.failFast(false)
+.timeout(Duration.ofMillis(35))
+.build();
 
-Rule<Customer> premiumUpgrade = rule("premium-upgrade")
-    .when(c -> c.getSpendLast90Days() > 2500)
-    .and(c -> c.getTenureMonths() >= 6)
-    .then(c -> c.setTier(Tier.PREMIUM));
-
-engine.register(premiumUpgrade);
-engine.fire(customer);`,
+//          |----> velocity ---┐
+// start -->|----> geo -----------> score --> decision
+//          |----> merchant ---┘
+`,
         },
         compose: {
-          title: "Rule Composition",
-          code: `Rule<Order> needsReview = rule("review")
-    .when(o -> o.total() > 10_000)
-    .or(o -> o.shippingCountry().isHighRisk())
-    .then(o -> o.flag("MANUAL_REVIEW"));
+          title: "Dynamic Rule Composition",
+          language: "kotlin",
+          code: `class YourCondition : RuleCondition {
+  override fun evaluate(context: RuleContext): Boolean {
+    val amount: Double by context
+    val threshold: Double by context
 
-Rule<Order> approvedOrder = rule("auto-approve")
-    .when(needsReview.negate())
-    .then(o -> o.approve());`,
+    return amount > threshold
+  }
+}
+
+class YourAction : RuleAction {
+  override fun execute(context: RuleContext) {
+    val customerId: String by context
+    val amount: Double by context
+    val notificationService: NotificationService by context
+    val reviewService: ReviewService by context
+
+    notificationService.notifyForProbableDelay(customerId)
+    reviewService.submitForManualReview(customerId, amount)
+
+    context.put("status", "MANUAL_REVIEW_REQUIRED")
+  }
+}`,
         },
         priority: {
           title: "Priority + Conflict Handling",
+          language: "java",
           code: `Rule<Cart> loyaltyDiscount = rule("loyalty")
     .priority(40)
     .when(c -> c.customer().isLoyal())
@@ -220,6 +360,7 @@ engine.register(lifetimeValueRule, loyaltyDiscount, flashSale);`,
         },
         trace: {
           title: "Decision Trace",
+          language: "java",
           code: `DecisionResult<Claim> result = engine.evaluate(claim, opts -> opts.trace(true));
 
 if (result.isAccepted()) {
@@ -232,10 +373,64 @@ result.trace().forEach(entry ->
         },
       };
 
+      function isThemeMode(value) {
+        return value === "light" || value === "dark";
+      }
+
+      function readStoredThemeMode() {
+        try {
+          const storedMode = localStorage.getItem(themeStorageKey);
+          if (isThemeMode(storedMode)) {
+            return storedMode;
+          }
+        } catch (error) {
+          // Ignore storage access failures in restricted browsing contexts.
+        }
+        return null;
+      }
+
+      function saveThemeMode(mode) {
+        if (!isThemeMode(mode)) {
+          return;
+        }
+        try {
+          localStorage.setItem(themeStorageKey, mode);
+        } catch (error) {
+          // Ignore storage access failures in restricted browsing contexts.
+        }
+      }
+
+      function resolveTheme(mode) {
+        return isThemeMode(mode) ? mode : media.matches ? "dark" : "light";
+      }
+
+      function syncThemeToggle(resolvedTheme) {
+        const isDark = resolvedTheme === "dark";
+        const actionLabel = isDark ? "Theme: Dark. Switch to Light." : "Theme: Light. Switch to Dark.";
+        themeToggleIcon.textContent = isDark ? "lightbulb" : "emoji_objects";
+        themeToggle.classList.toggle("is-shining", !isDark);
+        themeToggle.setAttribute("aria-label", actionLabel);
+        themeToggle.setAttribute("title", actionLabel);
+      }
+
+      function syncThemedLogos(resolvedTheme) {
+        const logoSrc = logoByTheme[resolvedTheme] || logoByTheme.light;
+        themedLogos.forEach((logo) => {
+          logo.src = logoSrc;
+        });
+      }
+
       function syncUiTheme() {
-        const mode = bg.getAttribute("theme") || "auto";
-        const resolved = mode === "auto" ? (media.matches ? "dark" : "light") : mode;
+        const resolved = resolveTheme(themeMode);
+        bg.setAttribute("theme", resolved);
+        document.body.classList.remove("light", "dark");
+        document.body.classList.add(resolved);
         document.body.dataset.uiTheme = resolved;
+        if (hljsTheme) {
+          hljsTheme.href = hljsThemeByMode[resolved] || hljsThemeByMode.dark;
+        }
+        syncThemedLogos(resolved);
+        syncThemeToggle(resolved);
       }
 
       function setFeature(key) {
@@ -245,6 +440,11 @@ result.trace().forEach(entry ->
         }
         codeTitle.textContent = selected.title;
         codeExample.textContent = selected.code;
+        codeExample.className = `hljs language-${selected.language || "java"}`;
+        if (window.hljs) {
+          delete codeExample.dataset.highlighted;
+          window.hljs.highlightElement(codeExample);
+        }
 
         document.querySelectorAll("md-list-item.feature-item").forEach((item) => {
           const isActive = item.dataset.feature === key;
@@ -280,9 +480,21 @@ result.trace().forEach(entry ->
         setFeature(target.dataset.feature);
       });
 
-      media.addEventListener("change", syncUiTheme);
+      themeToggle.addEventListener("click", () => {
+        const current = resolveTheme(themeMode);
+        themeMode = current === "dark" ? "light" : "dark";
+        saveThemeMode(themeMode);
+        syncUiTheme();
+      });
+
+      media.addEventListener("change", () => {
+        if (!isThemeMode(themeMode)) {
+          syncUiTheme();
+        }
+      });
+
       syncUiTheme();
-      setFeature("dsl");
+      setFeature("rules");
     </script>
   </body>
 </html>

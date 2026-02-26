@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="30 20 710 160">
+  <!-- Clean Flow Fork Design -->
+  <style type="text/css">
+    <![CDATA[
+    .mono-text {
+      font-family: ui-monospace, Monaco, monospace;
+    }
+    ]]>
+  </style>
+  <!-- ALL LINES FIRST (drawn underneath) -->
+
+  <!-- Main path to fork -->
+  <line x1="62" y1="100" x2="120" y2="100" stroke="#2563eb" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Three parallel branches - lines only -->
+  <!-- Top branch lines -->
+  <line x1="120" y1="100" x2="180" y2="50" stroke="#7c3aed" stroke-width="4" stroke-linecap="round"/>
+  <line x1="180" y1="50" x2="260" y2="50" stroke="#7c3aed" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Middle branch lines -->
+  <line x1="120" y1="100" x2="180" y2="100" stroke="#7c3aed" stroke-width="4" stroke-linecap="round"/>
+  <line x1="180" y1="100" x2="260" y2="100" stroke="#7c3aed" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Bottom branch lines -->
+  <line x1="120" y1="100" x2="180" y2="150" stroke="#7c3aed" stroke-width="4" stroke-linecap="round"/>
+  <line x1="180" y1="150" x2="260" y2="150" stroke="#7c3aed" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Join junction lines -->
+  <line x1="260" y1="50" x2="300" y2="100" stroke="#2563eb" stroke-width="4" stroke-linecap="round"/>
+  <line x1="260" y1="100" x2="300" y2="100" stroke="#2563eb" stroke-width="4" stroke-linecap="round"/>
+  <line x1="260" y1="150" x2="300" y2="100" stroke="#2563eb" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Output path line -->
+  <line x1="308" y1="100" x2="360" y2="100" stroke="#2563eb" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- ALL CIRCLES LAST (drawn on top) -->
+
+  <!-- Input node -->
+  <circle cx="50" cy="100" r="12" fill="#2563eb"/>
+
+  <!-- Fork junction -->
+  <circle cx="120" cy="100" r="8" fill="#2563eb"/>
+
+  <!-- Top branch circles -->
+  <circle cx="180" cy="50" r="10" fill="#7c3aed"/>
+  <circle cx="260" cy="50" r="8" fill="#7c3aed"/>
+
+  <!-- Middle branch circles -->
+  <circle cx="180" cy="100" r="10" fill="#7c3aed"/>
+  <circle cx="260" cy="100" r="8" fill="#7c3aed"/>
+
+  <!-- Bottom branch circles -->
+  <circle cx="180" cy="150" r="10" fill="#7c3aed"/>
+  <circle cx="260" cy="150" r="8" fill="#7c3aed"/>
+
+  <!-- Join junction circle -->
+  <circle cx="300" cy="100" r="8" fill="#2563eb"/>
+
+  <!-- Output node -->
+  <circle cx="360" cy="100" r="12" fill="#2563eb"/>
+
+  <!-- Text -->
+  <text x="410" y="125" class="mono-text" font-family="ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono', 'Courier New', monospace" font-size="64" font-weight="700" letter-spacing="-1">
+    <tspan fill="#ffffff">Rules4</tspan><tspan fill="#7c3aed" font-size="74" font-weight="900">J</tspan>
+  </text>
+</svg>
