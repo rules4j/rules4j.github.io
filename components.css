@@ -115,15 +115,22 @@ main {
   padding: clamp(1.75rem, 5vw, 4rem) 0 2.25rem;
 }
 
+.hero-header {
+  grid-column: 1 / -1;
+  margin-bottom: 0;
+}
+
 .hero-grid {
   display: grid;
   grid-template-columns: 1.05fr 1fr;
-  gap: clamp(1rem, 2vw, 2rem);
+  column-gap: clamp(1rem, 2vw, 2rem);
+  row-gap: clamp(1rem, 2vw, 1.6rem);
   align-items: start;
 }
 
 .hero-left {
-  padding: 0.15rem 0;
+  padding: 0;
+  align-self: start;
 }
 
 .label-large,
@@ -142,7 +149,6 @@ main {
   line-height: 4rem;
   font-weight: 400;
   letter-spacing: -0.015rem;
-  max-width: 13ch;
 }
 
 .body-large,
@@ -153,7 +159,6 @@ main {
   font-weight: 400;
   letter-spacing: 0.031rem;
   color: var(--md-sys-color-on-surface-variant);
-  max-width: 58ch;
 }
 
 .hero-cta {
@@ -173,7 +178,6 @@ main {
 }
 
 .feature-list {
-  margin: 1.3rem 0 0;
   padding: 0.3rem;
   border-radius: var(--md-sys-shape-corner-large);
   border: 1px solid var(--md-sys-color-outline-variant);
@@ -184,25 +188,39 @@ main {
 .feature-item {
   cursor: pointer;
   --md-list-item-container-shape: var(--md-sys-shape-corner-medium);
-  --md-list-item-container-color: var(--md-sys-color-surface-container);
+  --md-list-item-container-color: transparent;
   --md-list-item-label-text-color: var(--md-sys-color-on-surface);
   --md-list-item-supporting-text-color: var(--md-sys-color-on-surface-variant);
   --md-list-item-leading-icon-color: var(--md-sys-color-on-surface-variant);
+  --md-list-item-trailing-icon-color: var(--md-sys-color-primary);
   --md-list-item-hover-state-layer-color: var(--md-sys-color-primary);
   --md-list-item-hover-state-layer-opacity: var(--md-sys-state-hover-opacity);
   --md-list-item-pressed-state-layer-color: var(--md-sys-color-primary);
   --md-list-item-pressed-state-layer-opacity: var(--md-sys-state-focus-opacity);
 }
 
-.feature-item[active] {
+.feature-item.is-active {
   --md-list-item-container-color: var(--md-sys-color-secondary-container);
   --md-list-item-label-text-color: var(--md-sys-color-on-secondary-container);
   --md-list-item-supporting-text-color: var(--md-sys-color-on-secondary-container);
   --md-list-item-leading-icon-color: var(--md-sys-color-on-secondary-container);
+  --md-list-item-trailing-icon-color: var(--md-sys-color-on-secondary-container);
+}
+
+.feature-selected-indicator {
+  opacity: 0;
+  transform: translateX(-0.25rem);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.feature-item.is-active .feature-selected-indicator {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 .hero-right {
   min-width: 0;
+  align-self: start;
 }
 
 .code-card {

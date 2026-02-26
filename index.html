@@ -63,53 +63,68 @@
 
       <main>
         <section class="hero-band" id="features">
-          <div class="container hero-grid">
-            <div class="hero-left">
-              <p class="eyebrow label-large">Enterprise Rule Orchestration</p>
-              <h1 class="display-large">Material-grade rule automation for serious production systems.</h1>
-              <p class="intro body-large">
-                Standardize policy logic, control precedence, and expose explainable decisions
-                across payments, risk, onboarding, and compliance workflows.
-              </p>
+          <div class="container">
+            <div class="hero-grid">
+              <header class="hero-header">
+                <p class="eyebrow label-large">Enterprise Rule Orchestration</p>
+                <h1 class="display-large">Enterprise-grade rule automation for serious production systems.</h1>
+                <p class="intro body-large">
+                  Standardize policy logic, control precedence, and expose explainable decisions
+                  across payments, risk, onboarding, and compliance workflows.
+                </p>
+                <div class="hero-cta">
+                  <md-filled-button href="https://github.com/rules4j/rules4j">Get Started</md-filled-button>
+                  <md-outlined-button href="https://github.com/rules4j/rules4j">Read Docs</md-outlined-button>
+                </div>
+              </header>
 
-              <div class="hero-cta">
-                <md-filled-button href="https://github.com/rules4j/rules4j">Get Started</md-filled-button>
-                <md-outlined-button href="https://github.com/rules4j/rules4j">Read Docs</md-outlined-button>
+              <div class="hero-left">
+                <md-list class="feature-list" id="featureList" activatable>
+                  <md-list-item class="feature-item is-active" data-feature="dsl" type="button" active>
+                    <div slot="headline">Fluent DSL</div>
+                    <div slot="supporting-text">Readable policy code with minimal boilerplate.</div>
+                    <span class="material-symbols-rounded" slot="start">code</span>
+                    <span class="material-symbols-rounded feature-selected-indicator" slot="end"
+                      >check</span
+                    >
+                  </md-list-item>
+                  <md-list-item class="feature-item" data-feature="compose" type="button">
+                    <div slot="headline">Rule Composition</div>
+                    <div slot="supporting-text">Build modular chains and reusable decision blocks.</div>
+                    <span class="material-symbols-rounded" slot="start">account_tree</span>
+                    <span class="material-symbols-rounded feature-selected-indicator" slot="end"
+                      >check</span
+                    >
+                  </md-list-item>
+                  <md-list-item class="feature-item" data-feature="priority" type="button">
+                    <div slot="headline">Priority + Conflict Handling</div>
+                    <div slot="supporting-text">Keep execution deterministic under overlap.</div>
+                    <span class="material-symbols-rounded" slot="start">rule</span>
+                    <span class="material-symbols-rounded feature-selected-indicator" slot="end"
+                      >check</span
+                    >
+                  </md-list-item>
+                  <md-list-item class="feature-item" data-feature="trace" type="button">
+                    <div slot="headline">Decision Trace</div>
+                    <div slot="supporting-text">Provide a full audit trail for every decision.</div>
+                    <span class="material-symbols-rounded" slot="start">fact_check</span>
+                    <span class="material-symbols-rounded feature-selected-indicator" slot="end"
+                      >check</span
+                    >
+                  </md-list-item>
+                </md-list>
               </div>
 
-              <md-list class="feature-list" id="featureList" activatable>
-                <md-list-item class="feature-item" data-feature="dsl" type="button" active>
-                  <div slot="headline">Fluent DSL</div>
-                  <div slot="supporting-text">Readable policy code with minimal boilerplate.</div>
-                  <span class="material-symbols-rounded" slot="start">code</span>
-                </md-list-item>
-                <md-list-item class="feature-item" data-feature="compose" type="button">
-                  <div slot="headline">Rule Composition</div>
-                  <div slot="supporting-text">Build modular chains and reusable decision blocks.</div>
-                  <span class="material-symbols-rounded" slot="start">account_tree</span>
-                </md-list-item>
-                <md-list-item class="feature-item" data-feature="priority" type="button">
-                  <div slot="headline">Priority + Conflict Handling</div>
-                  <div slot="supporting-text">Keep execution deterministic under overlap.</div>
-                  <span class="material-symbols-rounded" slot="start">rule</span>
-                </md-list-item>
-                <md-list-item class="feature-item" data-feature="trace" type="button">
-                  <div slot="headline">Decision Trace</div>
-                  <div slot="supporting-text">Provide a full audit trail for every decision.</div>
-                  <span class="material-symbols-rounded" slot="start">fact_check</span>
-                </md-list-item>
-              </md-list>
-            </div>
-
-            <div class="hero-right">
-              <md-elevated-card class="code-card">
-                <div class="code-head">
-                  <span id="codeTitle">Fluent DSL</span>
-                  <span class="code-file">RuleConfig.java</span>
-                  <span class="code-dot"></span>
-                </div>
-                <pre><code id="codeExample"></code></pre>
-              </md-elevated-card>
+              <div class="hero-right">
+                <md-elevated-card class="code-card">
+                  <div class="code-head">
+                    <span id="codeTitle">Fluent DSL</span>
+                    <span class="code-file">RuleConfig.java</span>
+                    <span class="code-dot"></span>
+                  </div>
+                  <pre><code id="codeExample"></code></pre>
+                </md-elevated-card>
+              </div>
             </div>
           </div>
         </section>
@@ -161,6 +176,9 @@
       const codeTitle = document.getElementById("codeTitle");
       const codeExample = document.getElementById("codeExample");
       const featureList = document.getElementById("featureList");
+      featureList.style.padding = "0";
+      featureList.style.borderRadius = "var(--md-sys-shape-corner-large)";
+      featureList.style.overflow = "hidden";
 
       const snippets = {
         dsl: {
@@ -229,7 +247,28 @@ result.trace().forEach(entry ->
         codeExample.textContent = selected.code;
 
         document.querySelectorAll("md-list-item.feature-item").forEach((item) => {
-          item.active = item.dataset.feature === key;
+          const isActive = item.dataset.feature === key;
+          const containerColor = isActive ? "var(--md-sys-color-secondary-container)" : "transparent";
+          const labelColor = isActive
+            ? "var(--md-sys-color-on-secondary-container)"
+            : "var(--md-sys-color-on-surface)";
+          const supportingColor = isActive
+            ? "var(--md-sys-color-on-secondary-container)"
+            : "var(--md-sys-color-on-surface-variant)";
+
+          item.active = isActive;
+          item.toggleAttribute("active", isActive);
+          item.classList.toggle("is-active", isActive);
+
+          // Use Material list-item tokens for state colors/shapes.
+          item.style.setProperty("--md-list-item-container-shape", "var(--md-sys-shape-corner-none)");
+          item.style.setProperty("--md-list-item-container-color", containerColor);
+          item.style.setProperty("--md-list-item-label-text-color", labelColor);
+          item.style.setProperty("--md-list-item-supporting-text-color", supportingColor);
+          item.style.setProperty("--md-list-item-leading-icon-color", supportingColor);
+          item.style.setProperty("--md-list-item-trailing-icon-color", supportingColor);
+          item.style.backgroundColor = containerColor;
+          item.style.borderRadius = "var(--md-list-item-container-shape)";
         });
       }
 
