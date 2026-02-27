@@ -142,7 +142,7 @@
               </header>
 
               <div class="hero-left">
-                <md-list class="feature-list" id="featureList" activatable>
+                <md-list class="feature-list" id="featureList">
                   <md-list-item class="feature-item is-active" data-feature="rules" type="button" active>
                     <div slot="headline">Define your rules</div>
                     <div slot="supporting-text">Fluent Java/Kotlin API with minimal boilerplate.</div>
@@ -195,7 +195,7 @@
               </div>
 
               <div class="hero-right">
-                <md-elevated-card class="code-card">
+                <md-filled-card class="code-card">
                   <div class="code-head">
                     <span id="codeTitle">Fluent DSL</span>
                     <span class="code-file"></span>
@@ -216,7 +216,7 @@
                       Your browser does not support the video tag.
                     </video>
                   </div>
-                </md-elevated-card>
+                </md-filled-card>
               </div>
             </div>
           </div>
@@ -227,57 +227,57 @@
           <md-outlined-button href="https://github.com/rules4j/rules4j">Read Docs</md-outlined-button>
         </div>
 
-        <section class="platform-band" id="features">
+        <section class="platform-band" id="platform">
           <div class="container platform-grid">
-            <md-elevated-card class="surface-card" data-bg-icon="speed">
+            <md-filled-card class="surface-card" data-bg-icon="speed">
               <div class="surface-card-head">
                 <h3>Designed for Performance</h3>
               </div>
               <p>
                 Rules are compiled to JVM bytecode and executed with native speed.
               </p>
-            </md-elevated-card>
-            <md-elevated-card class="surface-card" data-bg-icon="autorenew">
+            </md-filled-card>
+            <md-filled-card class="surface-card" data-bg-icon="autorenew">
               <div class="surface-card-head">
                 <h3>Update at Runtime</h3>
               </div>
               <p>
                 Flows and rules are updated without restarting the application.
               </p>
-            </md-elevated-card>
-            <md-elevated-card class="surface-card" data-bg-icon="cloud">
+            </md-filled-card>
+            <md-filled-card class="surface-card" data-bg-icon="cloud">
               <div class="surface-card-head">
                 <h3>Cloud Native</h3>
               </div>
               <p>
                 Updates are distributed across all instances of a running application.
               </p>
-            </md-elevated-card>
+            </md-filled-card>
 
-            <md-elevated-card class="surface-card" data-bg-icon="toggle_on">
+            <md-filled-card class="surface-card" data-bg-icon="toggle_on">
               <div class="surface-card-head">
                 <h3>Non-Invasive API</h3>
               </div>
               <p>
                 Drop-in solution with minimal changes to your existing codebase. No need for external DSLs or configuration files.
               </p>
-            </md-elevated-card>
-            <md-elevated-card class="surface-card" data-bg-icon="verified_user">
+            </md-filled-card>
+            <md-filled-card class="surface-card" data-bg-icon="verified_user">
               <div class="surface-card-head">
                 <h3>Built with Compliance in Mind</h3>
               </div>
               <p>
                 All rules are versioned and stored in a central repository, providing a clear audit trail for regulatory compliance and internal governance.
               </p>
-            </md-elevated-card>
-            <md-elevated-card class="surface-card" data-bg-icon="history">
+            </md-filled-card>
+            <md-filled-card class="surface-card" data-bg-icon="history">
               <div class="surface-card-head">
                 <h3>Provable & Replayable Decisions</h3>
               </div>
               <p>
                 Every decision is logged and replayable, with full context, ensuring provable and reliable rule execution.
               </p>
-            </md-elevated-card>
+            </md-filled-card>
           </div>
         </section>
       </main>
@@ -326,7 +326,7 @@
     <script type="module" src="https://unpkg.com/@material/web@2.4.0/button/text-button.js?module"></script>
     <script type="module" src="https://unpkg.com/@material/web@2.4.0/list/list.js?module"></script>
     <script type="module" src="https://unpkg.com/@material/web@2.4.0/list/list-item.js?module"></script>
-    <script type="module" src="https://unpkg.com/@material/web@2.4.0/labs/card/elevated-card.js?module"></script>
+    <script type="module" src="https://unpkg.com/@material/web@2.4.0/labs/card/filled-card.js?module"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/java.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/kotlin.min.js"></script>
@@ -361,8 +361,6 @@
       };
       let themeMode = readStoredThemeMode();
       featureList.style.padding = "0";
-      featureList.style.borderRadius = "var(--md-sys-shape-corner-large)";
-      featureList.style.overflow = "hidden";
 
       const snippets = {
         rules: {

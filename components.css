@@ -112,7 +112,7 @@ main {
 }
 
 .app-actions md-filled-button {
-  --md-filled-button-container-shape: 20px;
+  --md-filled-button-container-shape: var(--md-sys-shape-corner-full);
   --md-filled-button-label-text-font: "Roboto";
   --md-filled-button-label-text-size: 0.875rem;
   --md-filled-button-label-text-weight: 500;
@@ -284,8 +284,8 @@ main {
 
 .center-actions md-filled-button,
 .center-actions md-outlined-button {
-  --md-filled-button-container-shape: 20px;
-  --md-outlined-button-container-shape: 20px;
+  --md-filled-button-container-shape: var(--md-sys-shape-corner-full);
+  --md-outlined-button-container-shape: var(--md-sys-shape-corner-full);
   --md-filled-button-label-text-font: "Roboto";
   --md-outlined-button-label-text-font: "Roboto";
   --md-filled-button-label-text-size: 0.95rem;
@@ -297,25 +297,22 @@ main {
 }
 
 .feature-list {
-  padding: 0.3rem;
-  border-radius: var(--md-sys-shape-corner-large);
-  border: 1px solid var(--md-sys-color-outline-variant);
-  background: var(--md-sys-color-surface-container-low);
+  background: var(--md-sys-color-surface-container);
   --md-list-container-color: transparent;
 }
 
 .feature-item {
   cursor: pointer;
-  --md-list-item-container-shape: var(--md-sys-shape-corner-medium);
+  --md-list-item-container-shape: var(--md-sys-shape-corner-none);
   --md-list-item-container-color: transparent;
   --md-list-item-label-text-color: var(--md-sys-color-on-surface);
   --md-list-item-supporting-text-color: var(--md-sys-color-on-surface-variant);
   --md-list-item-leading-icon-color: var(--md-sys-color-on-surface-variant);
-  --md-list-item-trailing-icon-color: var(--md-sys-color-primary);
-  --md-list-item-hover-state-layer-color: var(--md-sys-color-primary);
+  --md-list-item-trailing-icon-color: var(--md-sys-color-on-surface-variant);
+  --md-list-item-hover-state-layer-color: var(--md-sys-color-on-surface);
   --md-list-item-hover-state-layer-opacity: var(--md-sys-state-hover-opacity);
-  --md-list-item-pressed-state-layer-color: var(--md-sys-color-primary);
-  --md-list-item-pressed-state-layer-opacity: var(--md-sys-state-focus-opacity);
+  --md-list-item-pressed-state-layer-color: var(--md-sys-color-on-surface);
+  --md-list-item-pressed-state-layer-opacity: var(--md-sys-state-pressed-opacity);
 }
 
 .feature-item.is-active {
@@ -347,9 +344,8 @@ main {
   width: 100%;
   min-height: 560px;
   overflow: hidden;
-  --md-elevated-card-container-color: var(--md-sys-color-surface-container-lowest);
-  --md-elevated-card-container-shape: var(--md-sys-shape-corner-large);
-  --md-elevated-card-container-elevation: 1;
+  --md-filled-card-container-color: var(--md-sys-color-surface-container-lowest);
+  --md-filled-card-container-shape: var(--md-sys-shape-corner-medium);
 }
 
 .code-head {
@@ -436,9 +432,8 @@ code {
   width: 100%;
   padding: 1.05rem;
   overflow: hidden;
-  --md-elevated-card-container-color: var(--md-sys-color-surface-container-low);
-  --md-elevated-card-container-shape: var(--md-sys-shape-corner-large);
-  --md-elevated-card-container-elevation: 1;
+  --md-filled-card-container-color: var(--md-sys-color-surface-container-highest);
+  --md-filled-card-container-shape: var(--md-sys-shape-corner-medium);
 }
 
 .surface-card::after {
@@ -469,7 +464,7 @@ code {
 .surface-card h3 {
   margin: 0;
   font-size: 1.5rem;
-  line-height: 2.25rem;
+  line-height: 2rem;
   letter-spacing: 0;
   font-weight: 400;
 }
