@@ -470,20 +470,20 @@ class AnimatedNodeBackground extends HTMLElement {
 
     const palettes = {
       light: {
-        background: "#f5f9ff",
-        node: "#0f766e",
-        lineStart: "#0891b2",
-        lineEnd: "#2563eb",
-        accent: "rgba(14, 165, 233, 0.12)",
-        fadeStart: "rgba(245, 249, 255, 0)",
+        background: "#f3f6fb",
+        node: "#2f5d8a",
+        lineStart: "#4f78aa",
+        lineEnd: "#3f97b8",
+        accent: "rgba(63, 151, 184, 0.1)",
+        fadeStart: "rgba(243, 246, 251, 0)",
       },
       dark: {
-        background: "#050816",
-        node: "#93c5fd",
-        lineStart: "#38bdf8",
-        lineEnd: "#818cf8",
-        accent: "rgba(56, 189, 248, 0.14)",
-        fadeStart: "rgba(5, 8, 22, 0)",
+        background: "#0b1320",
+        node: "#9fc3f0",
+        lineStart: "#6b93cb",
+        lineEnd: "#57aac7",
+        accent: "rgba(87, 170, 199, 0.12)",
+        fadeStart: "rgba(11, 19, 32, 0)",
       },
     };
 
