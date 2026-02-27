@@ -1,6 +1,15 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-X7LBNCJM4W"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-X7LBNCJM4W');
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta property="og:title" content="Rules4J | Java Rules Engine" />
@@ -137,7 +146,7 @@
                   <md-list-item class="feature-item is-active" data-feature="rules" type="button" active>
                     <div slot="headline">Define your rules</div>
                     <div slot="supporting-text">Fluent Java/Kotlin API with minimal boilerplate.</div>
-                    <span class="material-symbols-rounded" slot="start">code</span>
+                    <span class="material-symbols-rounded" slot="start">data_object</span>
                     <span class="material-symbols-rounded feature-selected-indicator" slot="end"
                       >check</span
                     >
@@ -145,7 +154,7 @@
                   <md-list-item class="feature-item" data-feature="dsl" type="button">
                     <div slot="headline">Define your rule flow</div>
                     <div slot="supporting-text">Directed Acyclic Graphs (DAGs) for complex rule dependencies.</div>
-                    <span class="material-symbols-rounded" slot="start">code</span>
+                    <span class="material-symbols-rounded" slot="start">account_tree</span>
                     <span class="material-symbols-rounded feature-selected-indicator" slot="end"
                       >check</span
                     >
@@ -153,7 +162,7 @@
                   <md-list-item class="feature-item" data-feature="compose" type="button">
                     <div slot="headline">Compose Dynamic Rules</div>
                     <div slot="supporting-text">Either use your application's classes or define dynamic rules via Kotlin.</div>
-                    <span class="material-symbols-rounded" slot="start">account_tree</span>
+                    <span class="material-symbols-rounded" slot="start">integration_instructions</span>
                     <span class="material-symbols-rounded feature-selected-indicator" slot="end"
                       >check</span
                     >
@@ -161,7 +170,7 @@
                   <md-list-item class="feature-item" data-feature="priority" type="button">
                     <div slot="headline">Configure the Engine</div>
                     <div slot="supporting-text">Keep execution deterministic under overlap.</div>
-                    <span class="material-symbols-rounded" slot="start">rule</span>
+                    <span class="material-symbols-rounded" slot="start">tune</span>
                     <span class="material-symbols-rounded feature-selected-indicator" slot="end"
                       >check</span
                     >
@@ -169,7 +178,7 @@
                   <md-list-item class="feature-item" data-feature="trace" type="button">
                     <div slot="headline">Execute Your Rule Flow</div>
                     <div slot="supporting-text">Provide a full audit trail for every decision.</div>
-                    <span class="material-symbols-rounded" slot="start">fact_check</span>
+                    <span class="material-symbols-rounded" slot="start">play_arrow</span>
                     <span class="material-symbols-rounded feature-selected-indicator" slot="end"
                       >check</span
                     >
@@ -177,7 +186,7 @@
                   <md-list-item class="feature-item" data-feature="videoDemo" type="button">
                     <div slot="headline">Update Rules at Runtime</div>
                     <div slot="supporting-text">See a quick walkthrough of the update process.</div>
-                    <span class="material-symbols-rounded" slot="start">play_circle</span>
+                    <span class="material-symbols-rounded" slot="start">autorenew</span>
                     <span class="material-symbols-rounded feature-selected-indicator" slot="end"
                       >check</span
                     >
@@ -220,39 +229,51 @@
 
         <section class="platform-band" id="features">
           <div class="container platform-grid">
-            <md-elevated-card class="surface-card">
-              <h3>Designed for Performance</h3>
+            <md-elevated-card class="surface-card" data-bg-icon="speed">
+              <div class="surface-card-head">
+                <h3>Designed for Performance</h3>
+              </div>
               <p>
                 Rules are compiled to JVM bytecode and executed with native speed.
               </p>
             </md-elevated-card>
-            <md-elevated-card class="surface-card">
-              <h3>Update at Runtime</h3>
+            <md-elevated-card class="surface-card" data-bg-icon="autorenew">
+              <div class="surface-card-head">
+                <h3>Update at Runtime</h3>
+              </div>
               <p>
                 Flows and rules are updated without restarting the application.
               </p>
             </md-elevated-card>
-            <md-elevated-card class="surface-card">
-              <h3>Claude Native</h3>
+            <md-elevated-card class="surface-card" data-bg-icon="cloud">
+              <div class="surface-card-head">
+                <h3>Cloud Native</h3>
+              </div>
               <p>
                 Updates are distributed across all instances of a running application.
               </p>
             </md-elevated-card>
 
-            <md-elevated-card class="surface-card">
-              <h3>Non-Invasive API</h3>
+            <md-elevated-card class="surface-card" data-bg-icon="toggle_on">
+              <div class="surface-card-head">
+                <h3>Non-Invasive API</h3>
+              </div>
               <p>
                 Drop-in solution with minimal changes to your existing codebase. No need for external DSLs or configuration files.
               </p>
             </md-elevated-card>
-            <md-elevated-card class="surface-card">
-              <h3>Built with Compliance in Mind</h3>
+            <md-elevated-card class="surface-card" data-bg-icon="verified_user">
+              <div class="surface-card-head">
+                <h3>Built with Compliance in Mind</h3>
+              </div>
               <p>
                 All rules are versioned and stored in a central repository, providing a clear audit trail for regulatory compliance and internal governance.
               </p>
             </md-elevated-card>
-            <md-elevated-card class="surface-card">
-              <h3>Provable & Replayable Decisions</h3>
+            <md-elevated-card class="surface-card" data-bg-icon="history">
+              <div class="surface-card-head">
+                <h3>Provable & Replayable Decisions</h3>
+              </div>
               <p>
                 Every decision is logged and replayable, with full context, ensuring provable and reliable rule execution.
               </p>
@@ -271,7 +292,7 @@
               alt="Rules4J"
             />
             <p class="site-footer-tagline">
-              JVM rule engine for dynamic and native performance rule execution.
+              JVM rule engine with dynamic rules and native rule execution performance.
             </p>
           </div>
 
