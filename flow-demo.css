@@ -98,6 +98,16 @@
   color: #004182;
 }
 
+.demo-tag-native {
+  background: #d9f2e3;
+  color: #0d6832;
+}
+
+.demo-tag-mixed {
+  background: #f3e0f7;
+  color: #6b21a8;
+}
+
 .demo-tag-concurrent {
   background: #fef3c7;
   color: #b45309;
@@ -128,6 +138,16 @@ body.dark .flow-demo-wrapper {
 body.dark .flow-demo-wrapper .demo-tag-dynamic {
   background: #1a3a5c;
   color: #7fb8e8;
+}
+
+body.dark .flow-demo-wrapper .demo-tag-native {
+  background: #0d3320;
+  color: #6ee7a0;
+}
+
+body.dark .flow-demo-wrapper .demo-tag-mixed {
+  background: #3b1a5c;
+  color: #c084fc;
 }
 
 body.dark .flow-demo-wrapper .demo-tag-concurrent {

@@ -49,13 +49,13 @@ function RuleNodeComponent({ data }) {
       h('div', { className: 'demo-rule-card' },
         h('span', { className: 'demo-rule-card-icon' }, '\uD83C\uDFAF'),
         h('span', { className: 'demo-rule-card-label' }, 'Condition'),
-        h('span', { className: 'demo-rule-card-value' }, 'Dynamic')
+        h('span', { className: 'demo-rule-card-value' }, data.condition || 'Dynamic')
       ),
       // Action card
       h('div', { className: 'demo-rule-card' },
         h('span', { className: 'demo-rule-card-icon' }, '\u26A1'),
         h('span', { className: 'demo-rule-card-label' }, 'Action'),
-        h('span', { className: 'demo-rule-card-value' }, 'Dynamic')
+        h('span', { className: 'demo-rule-card-value' }, data.action || 'Dynamic')
       )
     ),
 
@@ -88,11 +88,11 @@ const nodeTypes = {
    ------------------------------------------------------------------ */
 const initialNodes = [
   { id: 'start', type: 'startNode', position: { x: 50, y: 185 }, data: {} },
-  { id: 'velocity', type: 'ruleNode', position: { x: 280, y: 20 }, data: { name: 'velocity', tags: ['Dynamic', 'Concurrent'] } },
-  { id: 'geo', type: 'ruleNode', position: { x: 280, y: 180 }, data: { name: 'geo', tags: ['Dynamic', 'Concurrent'] } },
-  { id: 'merchant', type: 'ruleNode', position: { x: 280, y: 340 }, data: { name: 'merchant', tags: ['Dynamic', 'Concurrent'] } },
-  { id: 'score', type: 'ruleNode', position: { x: 600, y: 180 }, data: { name: 'score', tags: ['Dynamic'] } },
-  { id: 'decision', type: 'ruleNode', position: { x: 900, y: 180 }, data: { name: 'decision', tags: ['Dynamic'] } },
+  { id: 'velocity', type: 'ruleNode', position: { x: 280, y: 20 }, data: { name: 'velocity', condition: 'Native', action: 'Native', tags: ['Native', 'Concurrent'] } },
+  { id: 'geo', type: 'ruleNode', position: { x: 280, y: 180 }, data: { name: 'geo', condition: 'Native', action: 'Dynamic', tags: ['Mixed', 'Concurrent'] } },
+  { id: 'merchant', type: 'ruleNode', position: { x: 280, y: 340 }, data: { name: 'merchant', condition: 'Dynamic', action: 'Dynamic', tags: ['Dynamic', 'Concurrent'] } },
+  { id: 'score', type: 'ruleNode', position: { x: 600, y: 180 }, data: { name: 'score', condition: 'Dynamic', action: 'Dynamic', tags: ['Dynamic'] } },
+  { id: 'decision', type: 'ruleNode', position: { x: 900, y: 180 }, data: { name: 'decision', condition: 'Dynamic', action: 'Dynamic', tags: ['Dynamic'] } },
 ];
 
 /* ------------------------------------------------------------------
