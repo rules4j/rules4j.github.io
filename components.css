@@ -48,8 +48,8 @@ body {
 @supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
   .app-bar::before {
     background-color: color-mix(in srgb, var(--md-sys-color-surface-container-low) 58%, transparent);
-    -webkit-backdrop-filter: blur(4px) saturate(115%);
-    backdrop-filter: blur(4px) saturate(115%);
+    -webkit-backdrop-filter: blur(6px) saturate(150%);
+    backdrop-filter: blur(6px) saturate(150%);
   }
 }
 
@@ -346,21 +346,21 @@ main {
   overflow: hidden;
   --md-filled-card-container-color: var(--md-sys-color-surface-container-lowest);
   --md-filled-card-container-shape: var(--md-sys-shape-corner-medium);
+  --md-sys-color-outline-variant: var(--md-sys-color-surface-variant);
 }
 
 .code-head {
   min-height: 52px;
-  padding: 0.72rem 1rem;
+  padding: 0.75rem 1rem;
   display: flex;
   align-items: center;
-  gap: 0.7rem;
+  gap: 0.5rem;
   border-bottom: 1px solid var(--md-sys-color-outline-variant);
-  background: var(--md-sys-color-surface-container-high);
+  background: var(--md-sys-color-surface-container-highest);
   color: var(--md-sys-color-on-surface-variant);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-size: 0.75rem;
-  font-weight: 500;
+  font-size: var(--md-sys-typescale-label-small-size, 0.75rem);
+  font-weight: var(--md-sys-typescale-label-small-weight, 500);
+  letter-spacing: var(--md-sys-typescale-label-small-tracking, 0.04em);
 }
 
 .code-file {
@@ -480,7 +480,6 @@ code {
 .site-footer {
   border-top: 1px solid var(--md-sys-color-outline-variant);
   padding: 1.5rem 0 1rem;
-  background: color-mix(in srgb, var(--md-sys-color-surface) 88%, transparent);
 }
 
 .site-footer-grid {
