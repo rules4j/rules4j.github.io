@@ -358,9 +358,44 @@ main {
   border-bottom: 1px solid var(--md-sys-color-outline-variant);
   background: var(--md-sys-color-surface-container-highest);
   color: var(--md-sys-color-on-surface-variant);
-  font-size: var(--md-sys-typescale-label-small-size, 0.75rem);
-  font-weight: var(--md-sys-typescale-label-small-weight, 500);
-  letter-spacing: var(--md-sys-typescale-label-small-tracking, 0.04em);
+  font-size: var(--md-sys-typescale-label-medium-size, 0.875rem);
+  font-weight: var(--md-sys-typescale-label-medium-weight, 500);
+  letter-spacing: var(--md-sys-typescale-label-medium-tracking, 0.04em);
+}
+
+.code-tabs {
+  display: none;
+}
+
+.code-tabs:not([hidden]) {
+  display: flex;
+  gap: 0;
+  background: var(--md-sys-color-surface-container-highest);
+  border-bottom: 1px solid var(--md-sys-color-outline-variant);
+  padding: 0 1rem;
+}
+
+.code-tab {
+  appearance: none;
+  border: none;
+  background: none;
+  padding: 0.5rem 1rem;
+  font-family: inherit;
+  font-size: var(--md-sys-typescale-label-medium-size, 0.875rem);
+  font-weight: var(--md-sys-typescale-label-medium-weight, 500);
+  color: var(--md-sys-color-on-surface-variant);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.code-tab:hover {
+  color: var(--md-sys-color-on-surface);
+}
+
+.code-tab.is-active {
+  color: var(--md-sys-color-primary);
+  border-bottom-color: var(--md-sys-color-primary);
 }
 
 .code-file {
@@ -401,6 +436,10 @@ pre {
   max-height: 500px;
   border-radius: var(--md-sys-shape-corner-medium);
   background: #000000;
+}
+
+.code-card pre code.hljs {
+  padding: 0;
 }
 
 body.dark .hljs {

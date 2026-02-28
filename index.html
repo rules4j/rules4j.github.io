@@ -174,7 +174,7 @@
                     >
                   </md-list-item>
                   <md-list-item class="feature-item" data-feature="compose" type="button">
-                    <div slot="headline">Compose Dynamic Rules</div>
+                    <div slot="headline">Compose Rules</div>
                     <div slot="supporting-text">Either use your application's classes or define dynamic rules via Kotlin.</div>
                     <span class="material-symbols-rounded" slot="start">integration_instructions</span>
                     <span class="material-symbols-rounded feature-selected-indicator" slot="end"
@@ -214,6 +214,8 @@
                     <span id="codeTitle">Fluent DSL</span>
                     <span class="code-file"></span>
                     <span class="code-dot"></span>
+                  </div>
+                  <div id="codeTabs" class="code-tabs" hidden>
                   </div>
                   <div id="codePanel">
                     <pre><code id="codeExample" class="hljs language-java"></code></pre>
@@ -421,6 +423,7 @@
       const featureList = document.getElementById("featureList");
       const headerFeaturesButton = document.getElementById("headerFeaturesButton");
       const hljsTheme = document.getElementById("hljsTheme");
+      const codeTabs = document.getElementById("codeTabs");
       const appBar = document.querySelector(".app-bar");
       const heroLogo = document.getElementById("heroLogo");
       const brandWordmark = document.getElementById("brandWordmark");
@@ -441,20 +444,22 @@
         rules: {
           title: "Rule Definition",
           language: "java",
-          code: `var velocity = RuleDefinition.create("velocity")
-          .dynamicCondition()
-          .dynamicAction()
-          .build();
+          code: `// Define your rules in you application
+
+var velocity = RuleDefinition.create("velocity")
+        .fixedCondition("com.acme.rules.VelocityCondition")
+        .fixedAction("com.acme.rules.VelocityAction")
+        .build();
 
 var geo = RuleDefinition.create("geo")
-          .dynamicCondition()
-          .dynamicAction()
-          .build();
+        .fixedCondition("com.acme.rules.GeoAnomalyCondition")
+        .dynamicAction()
+        .build();
 
 var merchant = RuleDefinition.create("merchant")
-          .dynamicCondition()
-          .dynamicAction()
-          .build();
+        .dynamicCondition()
+        .dynamicAction()
+        .build();
 `,
         },
         dsl: {
@@ -478,30 +483,47 @@ var merchant = RuleDefinition.create("merchant")
 `,
         },
         compose: {
-          title: "Compose Dynamic Rules",
-          language: "kotlin",
-          code: `class YourCondition : RuleCondition {
+          title: "Compose Rules",
+          tabs: [
+            {
+              label: "Dynamic",
+              language: "kotlin",
+              code: `class MerchantCondition : RuleCondition {
   override fun evaluate(context: RuleContext): Boolean {
-    val amount: Double by context
-    val threshold: Double by context
-
-    return amount > threshold
+    val mcc: String by context
+    return mcc in setOf("7995", "6051", "4829")
   }
 }
 
-class YourAction : RuleAction {
+class MerchantAction : RuleAction {
   override fun execute(context: RuleContext) {
-    val customerId: String by context
-    val amount: Double by context
-    val notificationService: NotificationService by context
+    val mcc: String by context
     val reviewService: ReviewService by context
 
-    notificationService.notifyForProbableDelay(customerId)
-    reviewService.submitForManualReview(customerId, amount)
-
-    context.put("status", "MANUAL_REVIEW_REQUIRED")
+    context.put("merchant_risk", "HIGH")
+    reviewService.flagMerchant(mcc)
   }
 }`,
+            },
+            {
+              label: "Native",
+              language: "java",
+              code: `public class VelocityCondition implements RuleCondition {
+  @Override
+  public boolean evaluate(RuleContext context) {
+    int txCount = context.getFact("tx_count_1h");
+    return txCount > 10;
+  }
+}
+
+public class VelocityAction implements RuleAction {
+  @Override
+  public void execute(RuleContext context) {
+    context.putFact("velocity_risk", "HIGH");
+  }
+}`,
+            },
+          ],
         },
         priority: {
           title: "Configure the Engine",
@@ -517,18 +539,20 @@ engine.start();`,
           title: "Execute Your Rule Flow",
           language: "java",
           code: `RuleContext context = new RuleContext(
-    // input facts
-    Map.of("age", 25, "country", "US"),
-
-    // services
-    Map.of("notificationService", notificationService)
+    Map.of(
+        "amount", transaction.amount(),
+        "mcc", transaction.mcc(),
+        "tx_count_1h", transaction.velocityCount(),
+        "origin_country", transaction.originCountry(),
+        "card_country", transaction.cardCountry()),
+    Map.of("reviewService", reviewService)
 );
 
-RuleFlowExecution execution = 
+RuleFlowExecution execution =
     engine.submit("payment-screening", context);
 
-// Optional
-RuleFlowResult result = 
+// Optional: you can save for audits or statistics
+RuleFlowResult result =
     execution.toCompletableFuture().get(40, MILLISECONDS);`,
         },
         videoDemo: {
@@ -697,6 +721,30 @@ RuleFlowResult result =
         window.requestAnimationFrame(tick);
       }
 
+      function renderTabs(snippet, activeIndex) {
+        while (codeTabs.firstChild) {
+          codeTabs.removeChild(codeTabs.firstChild);
+        }
+        snippet.tabs.forEach((tab, i) => {
+          const btn = document.createElement("button");
+          btn.className = "code-tab" + (i === activeIndex ? " is-active" : "");
+          btn.textContent = tab.label;
+          btn.addEventListener("click", () => {
+            snippet._activeTab = i;
+            renderTabs(snippet, i);
+          });
+          codeTabs.appendChild(btn);
+        });
+
+        const tab = snippet.tabs[activeIndex];
+        codeExample.textContent = tab.code;
+        codeExample.className = `hljs language-${tab.language || "java"}`;
+        if (window.hljs) {
+          delete codeExample.dataset.highlighted;
+          window.hljs.highlightElement(codeExample);
+        }
+      }
+
       function setFeature(key) {
         const selected = snippets[key];
         if (!selected) {
@@ -706,6 +754,7 @@ RuleFlowResult result =
         if (selected.type === "video") {
           codePanel.hidden = true;
           videoPanel.hidden = false;
+          codeTabs.hidden = true;
           const nextVideoSrc = selected.videoSrc || "";
           const currentVideoSrc = featureVideoSource.getAttribute("src") || "";
           if (currentVideoSrc !== nextVideoSrc) {
@@ -717,11 +766,19 @@ RuleFlowResult result =
           videoPanel.hidden = true;
           codePanel.hidden = false;
           featureVideo.pause();
-          codeExample.textContent = selected.code;
-          codeExample.className = `hljs language-${selected.language || "java"}`;
-          if (window.hljs) {
-            delete codeExample.dataset.highlighted;
-            window.hljs.highlightElement(codeExample);
+
+          if (selected.tabs) {
+            codeTabs.hidden = false;
+            const activeTab = selected._activeTab ?? 0;
+            renderTabs(selected, activeTab);
+          } else {
+            codeTabs.hidden = true;
+            codeExample.textContent = selected.code;
+            codeExample.className = `hljs language-${selected.language || "java"}`;
+            if (window.hljs) {
+              delete codeExample.dataset.highlighted;
+              window.hljs.highlightElement(codeExample);
+            }
           }
         }
 
