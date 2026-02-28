@@ -36,12 +36,26 @@
     />
     <link rel="stylesheet" href="./tokens.css" />
     <link rel="stylesheet" href="./components.css" />
+    <link rel="stylesheet" href="./flow-demo.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xyflow/react@12/dist/style.css" />
     <link
       id="hljsTheme"
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github-dark.min.css"
     />
     <title>Rules4J | Java Rules Engine</title>
+    <script type="importmap">
+    {
+      "imports": {
+        "react": "https://esm.sh/react@18",
+        "react/jsx-runtime": "https://esm.sh/react@18/jsx-runtime",
+        "react-dom": "https://esm.sh/react-dom@18",
+        "react-dom/client": "https://esm.sh/react-dom@18/client",
+        "@xyflow/react": "https://esm.sh/@xyflow/react@12?external=react,react-dom",
+        "@xyflow/system": "https://esm.sh/@xyflow/system@0?external=react,react-dom"
+      }
+    }
+    </script>
   </head>
   <body>
     <script>
@@ -227,6 +241,63 @@
           <md-outlined-button href="https://github.com/rules4j/rules4j">Read Docs</md-outlined-button>
         </div>
 
+        <section class="pipeline-band" id="pipeline">
+          <div class="container">
+            <p class="pipeline-eyebrow label-large">How it works</p>
+            <div class="pipeline-steps">
+              <div class="pipeline-step" data-step="1">
+                <div class="pipeline-icon-ring">
+                  <span class="material-symbols-rounded">code</span>
+                </div>
+                <h3 class="pipeline-headline">Write in Kotlin</h3>
+                <p class="pipeline-desc">Author rules in pure Kotlin with a fluent, type-safe API.</p>
+              </div>
+
+              <div class="pipeline-connector" aria-hidden="true">
+                <svg viewBox="0 0 80 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <line x1="0" y1="12" x2="60" y2="12" stroke="currentColor" stroke-width="2" stroke-dasharray="6 4"/>
+                  <polygon points="60,6 76,12 60,18" fill="currentColor"/>
+                </svg>
+              </div>
+
+              <div class="pipeline-step" data-step="2">
+                <div class="pipeline-icon-ring">
+                  <span class="material-symbols-rounded">memory</span>
+                </div>
+                <h3 class="pipeline-headline">Compiled to Bytecode</h3>
+                <p class="pipeline-desc">The library compiles and loads your rules as JVM .class files.</p>
+              </div>
+
+              <div class="pipeline-connector" aria-hidden="true">
+                <svg viewBox="0 0 80 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <line x1="0" y1="12" x2="60" y2="12" stroke="currentColor" stroke-width="2" stroke-dasharray="6 4"/>
+                  <polygon points="60,6 76,12 60,18" fill="currentColor"/>
+                </svg>
+              </div>
+
+              <div class="pipeline-step" data-step="3">
+                <div class="pipeline-icon-ring">
+                  <span class="material-symbols-rounded">bolt</span>
+                </div>
+                <h3 class="pipeline-headline">Native Speed</h3>
+                <p class="pipeline-desc">Rules execute as compiled bytecode — no interpretation overhead.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="flow-demo-band" id="flow-demo">
+          <div class="container">
+            <p class="pipeline-eyebrow label-large">Build Rule Flows Visually</p>
+            <p class="flow-demo-subtitle">
+              Drag nodes to explore the payment-screening flow from the code above.
+            </p>
+            <div class="flow-demo-wrapper">
+              <div id="flowDemoRoot" style="width:100%;height:100%"></div>
+            </div>
+          </div>
+        </section>
+
         <section class="platform-band" id="platform">
           <div class="container platform-grid">
             <md-filled-card class="surface-card" data-bg-icon="speed">
@@ -310,7 +381,10 @@
           </nav>
         </div>
         <div class="container site-footer-meta">
-          <p>© 2026 Rules4J</p>
+          <p>
+            © 2026 Rules4J
+            <span style="text-align: right">This website doesn't use any cookie.</span>
+          </p>
         </div>
       </footer>
     </div>
@@ -332,6 +406,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/kotlin.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/xml.min.js"></script>
     <script type="module" src="./animated-node-background.js?v=20260226211843"></script>
+    <script type="module" src="./flow-demo.js"></script>
     <script type="module">
       const bg = document.getElementById("bg");
       const media = window.matchMedia("(prefers-color-scheme: dark)");
@@ -705,6 +780,35 @@ RuleFlowResult result =
       syncUiTheme();
       setFeature("rules");
       setupScrollLogoTransition();
+
+      // ── Scroll-reveal for pipeline & morph sections ──
+      function setupScrollReveal() {
+        const staggerTargets = [
+          ...document.querySelectorAll(".pipeline-step, .pipeline-connector"),
+        ];
+
+        if (!staggerTargets.length) return;
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) return;
+              const el = entry.target;
+              // Stagger based on DOM order within parent
+              const siblings = [...el.parentElement.children];
+              const idx = siblings.indexOf(el);
+              el.style.transitionDelay = `${idx * 120}ms`;
+              el.classList.add("is-visible");
+              observer.unobserve(el);
+            });
+          },
+          { threshold: 0.15 },
+        );
+
+        staggerTargets.forEach((el) => observer.observe(el));
+      }
+
+      setupScrollReveal();
     </script>
   </body>
 </html>

@@ -215,8 +215,8 @@ main {
 .label-large,
 .eyebrow {
   margin: 0;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
+  font-size: 1.5rem;
+  line-height: 2rem;
   font-weight: 500;
   letter-spacing: 0.006rem;
   color: var(--md-sys-color-primary);
@@ -412,6 +412,119 @@ code {
   font-size: 0.875rem;
   line-height: 1.45rem;
   color: var(--md-sys-color-on-surface);
+}
+
+/* ── Pipeline: "How it works" stepper ── */
+
+.pipeline-band {
+  padding: 2.5rem 0 3rem;
+}
+
+.pipeline-eyebrow {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.pipeline-steps {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0;
+}
+
+.pipeline-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  flex: 0 1 240px;
+  opacity: 0;
+  transform: translateY(1.5rem);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.pipeline-step.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.pipeline-icon-ring {
+  width: 72px;
+  height: 72px;
+  border-radius: var(--md-sys-shape-corner-full);
+  background: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.pipeline-step.is-visible .pipeline-icon-ring {
+  box-shadow: 0 0 0 6px color-mix(in srgb, var(--md-sys-color-primary) 12%, transparent);
+}
+
+.pipeline-icon-ring .material-symbols-rounded {
+  font-size: 2rem;
+  font-variation-settings: "FILL" 0, "wght" 500, "GRAD" 0, "opsz" 24;
+}
+
+.pipeline-headline {
+  margin: 0 0 0.35rem;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 500;
+  color: var(--md-sys-color-on-surface);
+}
+
+.pipeline-desc {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.35rem;
+  color: var(--md-sys-color-on-surface-variant);
+  max-width: 22ch;
+}
+
+.pipeline-connector {
+  flex: 0 0 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 24px;
+  color: var(--md-sys-color-outline);
+  opacity: 0;
+  transition: opacity 0.4s ease 0.15s;
+}
+
+.pipeline-connector.is-visible {
+  opacity: 1;
+}
+
+.pipeline-connector svg {
+  width: 80px;
+  height: 24px;
+}
+
+@media (max-width: 700px) {
+  .pipeline-steps {
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  .pipeline-connector {
+    padding-top: 0;
+    transform: rotate(90deg);
+    flex: 0 0 24px;
+    margin: 2.25rem 0;
+  }
+
+  .pipeline-step {
+    flex: none;
+    width: 100%;
+    max-width: 280px;
+  }
 }
 
 .platform-band {
@@ -641,5 +754,35 @@ code {
   .site-footer-nav {
     grid-template-columns: 1fr 1fr;
     gap: 0.75rem;
+  }
+}
+
+/* ── Flow Demo Band ────────────────────────────────── */
+.flow-demo-band {
+  padding: 1rem 0 2.5rem;
+}
+
+.flow-demo-subtitle {
+  text-align: center;
+  color: var(--md-sys-color-on-surface-variant, #49454f);
+  font-size: 0.95rem;
+  max-width: 560px;
+  margin: 0.5rem auto 1.5rem;
+  line-height: 1.5;
+}
+
+.flow-demo-wrapper {
+  width: 100%;
+  height: 500px;
+  border-radius: var(--md-sys-shape-corner-extra-large, 28px);
+  overflow: hidden;
+  border: 1px solid var(--md-sys-color-outline-variant, #c4c7c5);
+  background: var(--md-sys-color-surface-container-lowest, #fff);
+}
+
+@media (max-width: 700px) {
+  .flow-demo-wrapper {
+    height: 350px;
+    border-radius: var(--md-sys-shape-corner-large, 16px);
   }
 }
