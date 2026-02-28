@@ -662,6 +662,9 @@ code {
   color: var(--md-sys-color-on-surface-variant);
   font-size: 0.8125rem;
   line-height: 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 @media (max-width: 1080px) {
