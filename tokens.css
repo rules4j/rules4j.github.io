@@ -1,0 +1,30 @@
+@import url("./theme/light.css");
+@import url("./theme/dark.css");
+@import url("./theme/light-mc.css");
+@import url("./theme/dark-mc.css");
+@import url("./theme/light-hc.css");
+@import url("./theme/dark-hc.css");
+
+:root {
+  color-scheme: light dark;
+
+  --md-sys-shape-corner-none: 0;
+  --md-sys-shape-corner-extra-small: 4px;
+  --md-sys-shape-corner-small: 8px;
+  --md-sys-shape-corner-medium: 12px;
+  --md-sys-shape-corner-large: 16px;
+  --md-sys-shape-corner-extra-large: 28px;
+  --md-sys-shape-corner-full: 9999px;
+
+  --md-sys-state-hover-opacity: 0.08;
+  --md-sys-state-focus-opacity: 0.12;
+  --md-sys-state-pressed-opacity: 0.12;
+}
+
+body.dark {
+  color-scheme: dark;
+}
+
+body.light {
+  color-scheme: light;
+}

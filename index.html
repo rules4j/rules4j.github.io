@@ -1,0 +1,943 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-B0T2FYK94Y"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-B0T2FYK94Y');
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta property="og:title" content="Rules4J | JVM Rule Engine" />
+    <meta
+      property="og:description"
+      content="Build fast, readable, and testable business rules in Java."
+    />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Rules4J | Java Rule Engine" />
+    <meta
+      name="twitter:description"
+      content="Build fast, readable, and testable business rules in Java."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,500,0,0"
+    />
+    <link rel="stylesheet" href="./tokens.css" />
+    <link rel="stylesheet" href="./components.css" />
+    <link rel="stylesheet" href="./flow-demo.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xyflow/react@12/dist/style.css" />
+    <link
+      id="hljsTheme"
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github-dark.min.css"
+    />
+    <title>Rules4J | JVM Rule Engine</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <script type="importmap">
+    {
+      "imports": {
+        "react": "https://esm.sh/react@18",
+        "react/jsx-runtime": "https://esm.sh/react@18/jsx-runtime",
+        "react-dom": "https://esm.sh/react-dom@18",
+        "react-dom/client": "https://esm.sh/react-dom@18/client",
+        "@xyflow/react": "https://esm.sh/@xyflow/react@12?external=react,react-dom",
+        "@xyflow/system": "https://esm.sh/@xyflow/system@0?external=react,react-dom"
+      }
+    }
+    </script>
+  </head>
+  <body>
+    <script>
+      (() => {
+        const themeStorageKey = "rules4j-theme-mode";
+        const media = window.matchMedia("(prefers-color-scheme: dark)");
+        let storedTheme = null;
+
+        try {
+          const value = localStorage.getItem(themeStorageKey);
+          if (value === "light" || value === "dark") {
+            storedTheme = value;
+          }
+        } catch (error) {
+          // Ignore storage access failures in restricted browsing contexts.
+        }
+
+        const initialTheme = storedTheme || (media.matches ? "dark" : "light");
+        const hljsTheme = document.getElementById("hljsTheme");
+        if (hljsTheme) {
+          hljsTheme.href =
+            initialTheme === "light"
+              ? "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github.min.css"
+              : "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/base16/windows-high-contrast.min.css";
+        }
+        document.body.classList.add(initialTheme);
+        document.body.dataset.uiTheme = initialTheme;
+      })();
+    </script>
+    <animated-node-background
+      id="bg"
+      node-count="80"
+      opacity="0.42"
+      pull-radius="260"
+      pull-strength="58"
+      theme="auto"
+      interactive="true"
+    ></animated-node-background>
+
+    <div class="page">
+      <header class="app-bar">
+        <div class="container app-bar-inner">
+          <a class="brand" href="#" aria-label="Rules4J Home">
+              <img
+              id="brandWordmark"
+              class="brand-wordmark"
+              src="Rules4J.svg"
+              data-theme-logo
+              alt="Rules4J"
+            />
+          </a>
+
+          <nav class="top-nav" aria-label="Primary">
+            <md-text-button id="headerFeaturesButton" href="#features">Features</md-text-button>
+            <md-text-button href="#platform">Use it in your project</md-text-button>
+            <md-text-button href="https://github.com/rules4j/rules4j">Docs</md-text-button>
+          </nav>
+
+          <div class="app-actions">
+            <button id="themeToggle" class="theme-switch" type="button" aria-label="Theme mode">
+              <span id="themeToggleIcon" class="theme-switch-icon material-symbols-rounded" aria-hidden="true"
+                >lightbulb</span
+              >
+            </button>
+            <md-filled-button href="https://github.com/rules4j/rules4j">Github</md-filled-button>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <section class="hero-band" id="features">
+          <div class="container">
+            <p class="announcement-pill" role="status">
+              <span class="material-symbols-rounded announcement-pill-icon" aria-hidden="true"
+                >campaign</span
+              >
+              <span>First version coming soon!</span>
+              <a href="https://github.com/rules4j/rules4j/releases">Track updates</a>
+            </p>
+            
+            <div class="hero-logo-row">
+              <img
+                id="heroLogo"
+                class="hero-logo"
+                src="Rules4J.svg"
+                data-theme-logo
+                alt="Rules4J"
+              />
+            </div>
+
+            <div class="hero-grid">
+              <header class="hero-header">
+                <p class="eyebrow label-large">JVM-native rule engine</p>
+                <h1 class="display-large">Dynamic rules, native performance.</h1>
+                <p class="intro body-large">
+                  With no-restart updates at runtime, confidently keep your business logic in your code.
+                </p>
+              </header>
+
+              <div class="hero-left">
+                <md-list class="feature-list" id="featureList">
+                  <md-list-item class="feature-item is-active" data-feature="rules" type="button" active>
+                    <div slot="headline">Define your rules</div>
+                    <div slot="supporting-text">Fluent Java/Kotlin API with minimal boilerplate.</div>
+                    <span class="material-symbols-rounded" slot="start">data_object</span>
+                    <span class="material-symbols-rounded feature-selected-indicator" slot="end"
+                      >check</span
+                    >
+                  </md-list-item>
+                  <md-list-item class="feature-item" data-feature="dsl" type="button">
+                    <div slot="headline">Define your rule flow</div>
+                    <div slot="supporting-text">Directed Acyclic Graphs (DAGs) for complex rule dependencies.</div>
+                    <span class="material-symbols-rounded" slot="start">account_tree</span>
+                    <span class="material-symbols-rounded feature-selected-indicator" slot="end"
+                      >check</span
+                    >
+                  </md-list-item>
+                  <md-list-item class="feature-item" data-feature="compose" type="button">
+                    <div slot="headline">Compose Rules</div>
+                    <div slot="supporting-text">Either use your application's classes or define dynamic rules via Kotlin.</div>
+                    <span class="material-symbols-rounded" slot="start">integration_instructions</span>
+                    <span class="material-symbols-rounded feature-selected-indicator" slot="end"
+                      >check</span
+                    >
+                  </md-list-item>
+                  <md-list-item class="feature-item" data-feature="priority" type="button">
+                    <div slot="headline">Configure the Engine</div>
+                    <div slot="supporting-text">Keep execution deterministic under overlap.</div>
+                    <span class="material-symbols-rounded" slot="start">tune</span>
+                    <span class="material-symbols-rounded feature-selected-indicator" slot="end"
+                      >check</span
+                    >
+                  </md-list-item>
+                  <md-list-item class="feature-item" data-feature="trace" type="button">
+                    <div slot="headline">Execute Your Rule Flow</div>
+                    <div slot="supporting-text">Provide a full audit trail for every decision.</div>
+                    <span class="material-symbols-rounded" slot="start">play_arrow</span>
+                    <span class="material-symbols-rounded feature-selected-indicator" slot="end"
+                      >check</span
+                    >
+                  </md-list-item>
+                  <md-list-item class="feature-item" data-feature="videoDemo" type="button">
+                    <div slot="headline">Update Rules at Runtime</div>
+                    <div slot="supporting-text">See a quick walkthrough of the update process.</div>
+                    <span class="material-symbols-rounded" slot="start">autorenew</span>
+                    <span class="material-symbols-rounded feature-selected-indicator" slot="end"
+                      >check</span
+                    >
+                  </md-list-item>
+                </md-list>
+              </div>
+
+              <div class="hero-right">
+                <md-filled-card class="code-card">
+                  <div class="code-head">
+                    <span id="codeTitle">Fluent DSL</span>
+                    <span class="code-file"></span>
+                    <span class="code-dot"></span>
+                  </div>
+                  <div id="codeTabs" class="code-tabs" hidden>
+                  </div>
+                  <div id="codePanel">
+                    <pre><code id="codeExample" class="hljs language-java"></code></pre>
+                  </div>
+                  <div id="videoPanel" class="video-panel" hidden>
+                    <video
+                      id="featureVideo"
+                      controls
+                      preload="metadata"
+                      playsinline
+                      aria-label="Rules4J feature demonstration video"
+                    >
+                      <source id="featureVideoSource" type="video/mp4" />
+                      Your browser does not support the video tag.
+                    </video>
+                  </div>
+                </md-filled-card>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="container center-actions">
+          <md-filled-button href="https://github.com/rules4j/rules4j">Get Started</md-filled-button>
+          <md-outlined-button href="https://github.com/rules4j/rules4j">Read Docs</md-outlined-button>
+        </div>
+
+        <section class="pipeline-band" id="pipeline">
+          <div class="container">
+            <p class="pipeline-eyebrow label-large">How it works</p>
+            <div class="pipeline-steps">
+              <div class="pipeline-step" data-step="1">
+                <div class="pipeline-icon-ring">
+                  <span class="material-symbols-rounded">code</span>
+                </div>
+                <h3 class="pipeline-headline">Write in Kotlin</h3>
+                <p class="pipeline-desc">Author rules in pure Kotlin with a fluent, type-safe API.</p>
+              </div>
+
+              <div class="pipeline-connector" aria-hidden="true">
+                <svg viewBox="0 0 80 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <line x1="0" y1="12" x2="60" y2="12" stroke="currentColor" stroke-width="2" stroke-dasharray="6 4"/>
+                  <polygon points="60,6 76,12 60,18" fill="currentColor"/>
+                </svg>
+              </div>
+
+              <div class="pipeline-step" data-step="2">
+                <div class="pipeline-icon-ring">
+                  <span class="material-symbols-rounded">memory</span>
+                </div>
+                <h3 class="pipeline-headline">Compiled to Bytecode</h3>
+                <p class="pipeline-desc">The library compiles and loads your rules as JVM .class files.</p>
+              </div>
+
+              <div class="pipeline-connector" aria-hidden="true">
+                <svg viewBox="0 0 80 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <line x1="0" y1="12" x2="60" y2="12" stroke="currentColor" stroke-width="2" stroke-dasharray="6 4"/>
+                  <polygon points="60,6 76,12 60,18" fill="currentColor"/>
+                </svg>
+              </div>
+
+              <div class="pipeline-step" data-step="3">
+                <div class="pipeline-icon-ring">
+                  <span class="material-symbols-rounded">bolt</span>
+                </div>
+                <h3 class="pipeline-headline">Native Speed</h3>
+                <p class="pipeline-desc">Rules execute as compiled bytecode — no interpretation overhead.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="flow-demo-band" id="flow-demo">
+          <div class="container">
+            <p class="pipeline-eyebrow label-large">Build Rule Flows Visually</p>
+            <p class="flow-demo-subtitle">
+              Drag nodes to explore the payment-screening flow from the code above.
+            </p>
+            <div class="flow-demo-wrapper">
+              <div id="flowDemoRoot" style="width:100%;height:100%"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="arch-band arch-band--split" id="architecture">
+          <div class="container">
+            <p class="pipeline-eyebrow label-large">How It All Fits Together</p>
+            <p class="arch-subtitle">Rules4J assembles native classes and dynamic Kotlin files into one compiled flow.</p>
+
+            <div class="arch-split">
+              <div class="arch-split-panel arch-split-panel--app">
+                <div class="arch-split-header">
+                  <span class="material-symbols-rounded">deployed_code</span>
+                  <h4>Your Application</h4>
+                </div>
+                <div class="arch-split-items">
+                  <div class="arch-split-item">
+                    <span class="material-symbols-rounded">data_object</span>
+                    <span>VelocityCondition.java</span>
+                  </div>
+                  <div class="arch-split-item">
+                    <span class="material-symbols-rounded">data_object</span>
+                    <span>VelocityAction.java</span>
+                  </div>
+                  <div class="arch-split-item">
+                    <span class="material-symbols-rounded">data_object</span>
+                    <span>GeoAnomalyCondition.java</span>
+                  </div>
+                  <div class="arch-split-item">
+                    <span class="material-symbols-rounded">account_tree</span>
+                    <span>Flow definition</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="arch-split-merge">
+                <div class="arch-split-merge-logo">
+                  <span class="material-symbols-rounded">merge</span>
+                </div>
+                <span class="arch-split-merge-label">Rules4J Engine</span>
+              </div>
+
+              <div class="arch-split-panel arch-split-panel--store">
+                <div class="arch-split-header">
+                  <span class="material-symbols-rounded">cloud_sync</span>
+                  <h4>Rule Store</h4>
+                </div>
+                <div class="arch-split-items">
+                  <div class="arch-split-item">
+                    <span class="material-symbols-rounded">code</span>
+                    <span>MerchantRule.kt</span>
+                  </div>
+                  <div class="arch-split-item">
+                    <span class="material-symbols-rounded">code</span>
+                    <span>ScoreCondition.kt</span>
+                  </div>
+                  <div class="arch-split-item">
+                    <span class="material-symbols-rounded">code</span>
+                    <span>DecisionAction.kt</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="arch-split-result">
+              <span class="material-symbols-rounded">bolt</span>
+              <p>One compiled flow. Native speed. Like calling a method in your app.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="platform-band" id="platform">
+          <div class="container platform-grid">
+            <md-filled-card class="surface-card" data-bg-icon="speed">
+              <div class="surface-card-head">
+                <h3>Designed for Performance</h3>
+              </div>
+              <p>
+                Rules are compiled to JVM bytecode and executed with native speed.
+              </p>
+            </md-filled-card>
+            <md-filled-card class="surface-card" data-bg-icon="autorenew">
+              <div class="surface-card-head">
+                <h3>Update at Runtime</h3>
+              </div>
+              <p>
+                Flows and rules are updated without restarting the application.
+              </p>
+            </md-filled-card>
+            <md-filled-card class="surface-card" data-bg-icon="cloud">
+              <div class="surface-card-head">
+                <h3>Cloud Native</h3>
+              </div>
+              <p>
+                Updates are distributed across all instances of a running application.
+              </p>
+            </md-filled-card>
+
+            <md-filled-card class="surface-card" data-bg-icon="toggle_on">
+              <div class="surface-card-head">
+                <h3>Non-Invasive API</h3>
+              </div>
+              <p>
+                Drop-in solution with minimal changes to your existing codebase. No need for external DSLs or configuration files.
+              </p>
+            </md-filled-card>
+            <md-filled-card class="surface-card" data-bg-icon="verified_user">
+              <div class="surface-card-head">
+                <h3>Built with Compliance in Mind</h3>
+              </div>
+              <p>
+                All rules are versioned and stored in a central repository, providing a clear audit trail for regulatory compliance and internal governance.
+              </p>
+            </md-filled-card>
+            <md-filled-card class="surface-card" data-bg-icon="history">
+              <div class="surface-card-head">
+                <h3>Provable & Replayable Decisions</h3>
+              </div>
+              <p>
+                Every decision is logged and replayable, with full context, ensuring provable and reliable rule execution.
+              </p>
+            </md-filled-card>
+          </div>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <div class="container site-footer-grid">
+          <div class="site-footer-brand">
+            <img
+              class="site-footer-logo"
+              src="Rules4J.svg"
+              data-theme-logo
+              alt="Rules4J"
+            />
+            <p class="site-footer-tagline">
+              JVM rule engine with dynamic rules and native rule execution performance.
+            </p>
+          </div>
+
+          <nav class="site-footer-nav" aria-label="Footer">
+            <div class="site-footer-group">
+              <h4>Product</h4>
+              <a href="#roadmap">Roadmap</a>
+              <a href="#support">Enterprise Support</a>
+            </div>
+            <div class="site-footer-group">
+              <h4>Resources</h4>
+              <a href="https://github.com/rules4j/rules4j">Docs</a>
+              <a href="https://github.com/rules4j/rules4j">GitHub</a>
+            </div>
+          </nav>
+        </div>
+        <div class="container site-footer-meta">
+          <p>
+            © 2026 Rules4J
+            <span>This website doesn't use any cookies.</span>
+          </p>
+        </div>
+      </footer>
+    </div>
+
+    <script
+      type="module"
+      src="https://unpkg.com/@material/web@2.4.0/button/filled-button.js?module"
+    ></script>
+    <script
+      type="module"
+      src="https://unpkg.com/@material/web@2.4.0/button/outlined-button.js?module"
+    ></script>
+    <script type="module" src="https://unpkg.com/@material/web@2.4.0/button/text-button.js?module"></script>
+    <script type="module" src="https://unpkg.com/@material/web@2.4.0/list/list.js?module"></script>
+    <script type="module" src="https://unpkg.com/@material/web@2.4.0/list/list-item.js?module"></script>
+    <script type="module" src="https://unpkg.com/@material/web@2.4.0/labs/card/filled-card.js?module"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/kotlin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/xml.min.js"></script>
+    <script type="module" src="./animated-node-background.js?v=20260226211843"></script>
+    <script type="module" src="./flow-demo.js"></script>
+    <script type="module">
+      const bg = document.getElementById("bg");
+      const media = window.matchMedia("(prefers-color-scheme: dark)");
+      const themeToggle = document.getElementById("themeToggle");
+      const themeToggleIcon = document.getElementById("themeToggleIcon");
+      const codeTitle = document.getElementById("codeTitle");
+      const codeExample = document.getElementById("codeExample");
+      const codePanel = document.getElementById("codePanel");
+      const videoPanel = document.getElementById("videoPanel");
+      const featureVideo = document.getElementById("featureVideo");
+      const featureVideoSource = document.getElementById("featureVideoSource");
+      const featureList = document.getElementById("featureList");
+      const headerFeaturesButton = document.getElementById("headerFeaturesButton");
+      const hljsTheme = document.getElementById("hljsTheme");
+      const codeTabs = document.getElementById("codeTabs");
+      const appBar = document.querySelector(".app-bar");
+      const heroLogo = document.getElementById("heroLogo");
+      const brandWordmark = document.getElementById("brandWordmark");
+      const themeStorageKey = "rules4j-theme-mode";
+      const themedLogos = document.querySelectorAll("img[data-theme-logo]");
+      const logoByTheme = {
+        light: "Rules4J.svg",
+        dark: "Rules4J-dark.svg",
+      };
+      const hljsThemeByMode = {
+        light: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github.min.css",
+        dark: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/base16/windows-high-contrast.min.css",
+      };
+      let themeMode = readStoredThemeMode();
+      featureList.style.padding = "0";
+
+      const snippets = {
+        rules: {
+          title: "Rule Definition",
+          language: "java",
+          code: `// Define your rules in you application
+
+var velocity = RuleDefinition.create("velocity")
+        .fixedCondition("com.acme.rules.VelocityCondition")
+        .fixedAction("com.acme.rules.VelocityAction")
+        .build();
+
+var geo = RuleDefinition.create("geo")
+        .fixedCondition("com.acme.rules.GeoAnomalyCondition")
+        .dynamicAction()
+        .build();
+
+var merchant = RuleDefinition.create("merchant")
+        .dynamicCondition()
+        .dynamicAction()
+        .build();
+`,
+        },
+        dsl: {
+          title: "Flow Definition",
+          language: "java",
+          code: `var paymentFlow = 
+          RuleFlowDefinition.create("payment-screening")
+.fork(
+    branch -> branch.then(velocity),
+    branch -> branch.then(geo),
+    branch -> branch.then(merchant))
+.then(score)
+.then(decision)
+.failFast(false)
+.timeout(Duration.ofMillis(35))
+.build();
+
+//          |----> velocity ---┐
+// start -->|----> geo -----------> score --> decision
+//          |----> merchant ---┘
+`,
+        },
+        compose: {
+          title: "Compose Rules",
+          tabs: [
+            {
+              label: "Dynamic",
+              language: "kotlin",
+              code: `class MerchantCondition : RuleCondition {
+  override fun evaluate(context: RuleContext): Boolean {
+    val mcc: String by context
+    return mcc in setOf("7995", "6051", "4829")
+  }
+}
+
+class MerchantAction : RuleAction {
+  override fun execute(context: RuleContext) {
+    val mcc: String by context
+    val reviewService: ReviewService by context
+
+    context.put("merchant_risk", "HIGH")
+    reviewService.flagMerchant(mcc)
+  }
+}`,
+            },
+            {
+              label: "Native",
+              language: "java",
+              code: `public class VelocityCondition implements RuleCondition {
+  @Override
+  public boolean evaluate(RuleContext context) {
+    int txCount = context.getFact("tx_count_1h");
+    return txCount > 10;
+  }
+}
+
+public class VelocityAction implements RuleAction {
+  @Override
+  public void execute(RuleContext context) {
+    context.putFact("velocity_risk", "HIGH");
+  }
+}`,
+            },
+          ],
+        },
+        priority: {
+          title: "Configure the Engine",
+          language: "java",
+          code: `RuleEngine engine = RuleEngine.withName("gateway-engine")
+		.flow(paymentFlow)
+		.store(store)
+		.build();
+
+engine.start();`,
+        },
+        trace: {
+          title: "Execute Your Rule Flow",
+          language: "java",
+          code: `RuleContext context = new RuleContext(
+    Map.of(
+        "amount", transaction.amount(),
+        "mcc", transaction.mcc(),
+        "tx_count_1h", transaction.velocityCount(),
+        "origin_country", transaction.originCountry(),
+        "card_country", transaction.cardCountry()),
+    Map.of("reviewService", reviewService)
+);
+
+RuleFlowExecution execution =
+    engine.submit("payment-screening", context);
+
+// Optional: you can save for audits or statistics
+RuleFlowResult result =
+    execution.toCompletableFuture().get(40, MILLISECONDS);`,
+        },
+        videoDemo: {
+          title: "Update Rules at Runtime",
+          type: "video",
+          videoSrc: "https://static.vecteezy.com/system/resources/previews/048/479/658/mp4/text-with-coming-soon-effect-glitch-on-black-background-free-video.mp4",
+        },
+      };
+
+      function isThemeMode(value) {
+        return value === "light" || value === "dark";
+      }
+
+      function readStoredThemeMode() {
+        try {
+          const storedMode = localStorage.getItem(themeStorageKey);
+          if (isThemeMode(storedMode)) {
+            return storedMode;
+          }
+        } catch (error) {
+          // Ignore storage access failures in restricted browsing contexts.
+        }
+        return null;
+      }
+
+      function saveThemeMode(mode) {
+        if (!isThemeMode(mode)) {
+          return;
+        }
+        try {
+          localStorage.setItem(themeStorageKey, mode);
+        } catch (error) {
+          // Ignore storage access failures in restricted browsing contexts.
+        }
+      }
+
+      function resolveTheme(mode) {
+        return isThemeMode(mode) ? mode : media.matches ? "dark" : "light";
+      }
+
+      function syncThemeToggle(resolvedTheme) {
+        const isDark = resolvedTheme === "dark";
+        const actionLabel = isDark ? "Theme: Dark. Switch to Light." : "Theme: Light. Switch to Dark.";
+        themeToggleIcon.textContent = isDark ? "lightbulb" : "emoji_objects";
+        themeToggle.classList.toggle("is-shining", !isDark);
+        themeToggle.setAttribute("aria-label", actionLabel);
+        themeToggle.setAttribute("title", actionLabel);
+      }
+
+      function syncThemedLogos(resolvedTheme) {
+        const logoSrc = logoByTheme[resolvedTheme] || logoByTheme.light;
+        themedLogos.forEach((logo) => {
+          logo.src = logoSrc;
+        });
+      }
+
+      function syncUiTheme() {
+        const resolved = resolveTheme(themeMode);
+        bg.setAttribute("theme", resolved);
+        document.body.classList.remove("light", "dark");
+        document.body.classList.add(resolved);
+        document.body.dataset.uiTheme = resolved;
+        if (hljsTheme) {
+          hljsTheme.href = hljsThemeByMode[resolved] || hljsThemeByMode.dark;
+        }
+        syncThemedLogos(resolved);
+        syncThemeToggle(resolved);
+      }
+
+      function setupScrollLogoTransition() {
+        if (!appBar || !heroLogo || !brandWordmark) {
+          return;
+        }
+
+        const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if (prefersReducedMotion) {
+          appBar.classList.add("logo-docked");
+          return;
+        }
+
+        const flyLogo = heroLogo.cloneNode(true);
+        flyLogo.id = "flyLogo";
+        flyLogo.classList.add("logo-fly");
+        flyLogo.setAttribute("aria-hidden", "true");
+        document.body.appendChild(flyLogo);
+
+        function clamp(value, min, max) {
+          return Math.min(max, Math.max(min, value));
+        }
+
+        function interpolate(a, b, t) {
+          return a + (b - a) * t;
+        }
+
+        function measureRect(element) {
+          const rect = element.getBoundingClientRect();
+          return {
+            left: rect.left,
+            top: rect.top,
+            width: rect.width,
+            height: rect.height,
+          };
+        }
+
+        function render() {
+          const heroRect = measureRect(heroLogo);
+          const brandRect = measureRect(brandWordmark);
+          const distance = Math.max(brandRect.top - heroRect.top, 1);
+          const startScroll = 12;
+          const endScroll = Math.max(distance + 72, 180);
+          const progress = clamp((window.scrollY - startScroll) / (endScroll - startScroll), 0, 1);
+
+          const eased = 1 - Math.pow(1 - progress, 3);
+          const nextLeft = interpolate(heroRect.left, brandRect.left, eased);
+          const nextTop = interpolate(heroRect.top, brandRect.top, eased);
+          const nextWidth = interpolate(heroRect.width, brandRect.width, eased);
+          const flyFadeIn = clamp(progress / 0.08, 0, 1);
+          const flyFadeOut = 1 - clamp((progress - 0.92) / 0.08, 0, 1);
+
+          flyLogo.style.left = `${nextLeft}px`;
+          flyLogo.style.top = `${nextTop}px`;
+          flyLogo.style.width = `${nextWidth}px`;
+          flyLogo.style.opacity = `${flyFadeIn * flyFadeOut}`;
+          heroLogo.style.opacity = `${1 - clamp(progress / 0.08, 0, 1)}`;
+          appBar.classList.toggle("logo-docked", progress >= 0.92);
+        }
+
+        window.addEventListener("scroll", render, { passive: true });
+        window.addEventListener("resize", render);
+        render();
+      }
+
+      function scrollToPageBottomFast() {
+        const targetTop = Math.max(
+          document.documentElement.scrollHeight - window.innerHeight,
+          0,
+        );
+        const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if (prefersReducedMotion) {
+          window.scrollTo(0, targetTop);
+          return;
+        }
+
+        const startTop = window.scrollY;
+        const distance = targetTop - startTop;
+        if (Math.abs(distance) < 2) {
+          return;
+        }
+
+        const durationMs = 300;
+        const startTime = performance.now();
+
+        function easeOutCubic(t) {
+          return 1 - Math.pow(1 - t, 3);
+        }
+
+        function tick(now) {
+          const progress = Math.min((now - startTime) / durationMs, 1);
+          const eased = easeOutCubic(progress);
+          window.scrollTo(0, Math.round(startTop + distance * eased));
+          if (progress < 1) {
+            window.requestAnimationFrame(tick);
+          }
+        }
+
+        window.requestAnimationFrame(tick);
+      }
+
+      function renderTabs(snippet, activeIndex) {
+        while (codeTabs.firstChild) {
+          codeTabs.removeChild(codeTabs.firstChild);
+        }
+        snippet.tabs.forEach((tab, i) => {
+          const btn = document.createElement("button");
+          btn.className = "code-tab" + (i === activeIndex ? " is-active" : "");
+          btn.textContent = tab.label;
+          btn.addEventListener("click", () => {
+            snippet._activeTab = i;
+            renderTabs(snippet, i);
+          });
+          codeTabs.appendChild(btn);
+        });
+
+        const tab = snippet.tabs[activeIndex];
+        codeExample.textContent = tab.code;
+        codeExample.className = `hljs language-${tab.language || "java"}`;
+        if (window.hljs) {
+          delete codeExample.dataset.highlighted;
+          window.hljs.highlightElement(codeExample);
+        }
+      }
+
+      function setFeature(key) {
+        const selected = snippets[key];
+        if (!selected) {
+          return;
+        }
+        codeTitle.textContent = selected.title;
+        if (selected.type === "video") {
+          codePanel.hidden = true;
+          videoPanel.hidden = false;
+          codeTabs.hidden = true;
+          const nextVideoSrc = selected.videoSrc || "";
+          const currentVideoSrc = featureVideoSource.getAttribute("src") || "";
+          if (currentVideoSrc !== nextVideoSrc) {
+            featureVideo.pause();
+            featureVideoSource.setAttribute("src", nextVideoSrc);
+            featureVideo.load();
+          }
+        } else {
+          videoPanel.hidden = true;
+          codePanel.hidden = false;
+          featureVideo.pause();
+
+          if (selected.tabs) {
+            codeTabs.hidden = false;
+            const activeTab = selected._activeTab ?? 0;
+            renderTabs(selected, activeTab);
+          } else {
+            codeTabs.hidden = true;
+            codeExample.textContent = selected.code;
+            codeExample.className = `hljs language-${selected.language || "java"}`;
+            if (window.hljs) {
+              delete codeExample.dataset.highlighted;
+              window.hljs.highlightElement(codeExample);
+            }
+          }
+        }
+
+        document.querySelectorAll("md-list-item.feature-item").forEach((item) => {
+          const isActive = item.dataset.feature === key;
+          const containerColor = isActive ? "var(--md-sys-color-secondary-container)" : "transparent";
+          const labelColor = isActive
+            ? "var(--md-sys-color-on-secondary-container)"
+            : "var(--md-sys-color-on-surface)";
+          const supportingColor = isActive
+            ? "var(--md-sys-color-on-secondary-container)"
+            : "var(--md-sys-color-on-surface-variant)";
+
+          item.active = isActive;
+          item.toggleAttribute("active", isActive);
+          item.classList.toggle("is-active", isActive);
+
+          // Use Material list-item tokens for state colors/shapes.
+          item.style.setProperty("--md-list-item-container-shape", "var(--md-sys-shape-corner-none)");
+          item.style.setProperty("--md-list-item-container-color", containerColor);
+          item.style.setProperty("--md-list-item-label-text-color", labelColor);
+          item.style.setProperty("--md-list-item-supporting-text-color", supportingColor);
+          item.style.setProperty("--md-list-item-leading-icon-color", supportingColor);
+          item.style.setProperty("--md-list-item-trailing-icon-color", supportingColor);
+          item.style.backgroundColor = containerColor;
+          item.style.borderRadius = "var(--md-list-item-container-shape)";
+        });
+      }
+
+      featureList.addEventListener("click", (event) => {
+        const target = event.target.closest("md-list-item.feature-item");
+        if (!target) {
+          return;
+        }
+        setFeature(target.dataset.feature);
+      });
+
+      themeToggle.addEventListener("click", () => {
+        const current = resolveTheme(themeMode);
+        themeMode = current === "dark" ? "light" : "dark";
+        saveThemeMode(themeMode);
+        syncUiTheme();
+      });
+
+      media.addEventListener("change", () => {
+        if (!isThemeMode(themeMode)) {
+          syncUiTheme();
+        }
+      });
+
+      headerFeaturesButton?.addEventListener("click", (event) => {
+        event.preventDefault();
+        scrollToPageBottomFast();
+      });
+
+      syncUiTheme();
+      setFeature("rules");
+      setupScrollLogoTransition();
+
+      // ── Scroll-reveal for pipeline & morph sections ──
+      function setupScrollReveal() {
+        const staggerTargets = [
+          ...document.querySelectorAll(".pipeline-step, .pipeline-connector"),
+        ];
+
+        if (!staggerTargets.length) return;
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) return;
+              const el = entry.target;
+              // Stagger based on DOM order within parent
+              const siblings = [...el.parentElement.children];
+              const idx = siblings.indexOf(el);
+              el.style.transitionDelay = `${idx * 120}ms`;
+              el.classList.add("is-visible");
+              observer.unobserve(el);
+            });
+          },
+          { threshold: 0.15 },
+        );
+
+        staggerTargets.forEach((el) => observer.observe(el));
+      }
+
+      setupScrollReveal();
+    </script>
+  </body>
+</html>

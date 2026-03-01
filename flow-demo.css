@@ -1,0 +1,182 @@
+/* ============================================================
+   flow-demo.css
+   Styles for the interactive React Flow demo: custom nodes,
+   handles, controls, and light/dark theme variants.
+   ============================================================ */
+
+/* ----------------------------------------------------------
+   1. StartNode  (.demo-start-node)
+   ---------------------------------------------------------- */
+.demo-start-node {
+  width: 57.6px;
+  height: 57.6px;
+  border-radius: 50%;
+  border: 2px solid #0ea5e9;
+  background: var(--flow-node-bg, #fff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.demo-start-label {
+  font-size: 8.5px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--flow-text-primary, #1e293b);
+}
+
+/* ----------------------------------------------------------
+   2. RuleNode  (.demo-rule-node)
+   ---------------------------------------------------------- */
+.demo-rule-node {
+  width: 180px;
+  background: var(--flow-node-bg, #fff);
+  border: 1px solid var(--flow-node-border, #e0e0e0);
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  font-size: 11px;
+  font-family: "Roboto", sans-serif;
+}
+
+.demo-rule-header {
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--flow-divider, #f0f0f0);
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--flow-text-primary, #1e293b);
+}
+
+.demo-rule-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  padding: 6px;
+}
+
+.demo-rule-card {
+  background: var(--flow-card-bg, #f8fafc);
+  border-radius: 6px;
+  padding: 5px 7px;
+  font-size: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.demo-rule-card-icon {
+  font-size: 12px;
+}
+
+.demo-rule-card-label {
+  color: var(--flow-text-secondary, #64748b);
+  font-size: 9px;
+}
+
+.demo-rule-card-value {
+  font-weight: 500;
+  color: var(--flow-text-primary, #1e293b);
+}
+
+.demo-rule-footer {
+  padding: 4px 8px;
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--flow-divider, #f0f0f0);
+}
+
+.demo-tag {
+  display: inline-flex;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 9px;
+  font-weight: 600;
+}
+
+.demo-tag-dynamic {
+  background: #e0ecf7;
+  color: #004182;
+}
+
+.demo-tag-native {
+  background: #d9f2e3;
+  color: #0d6832;
+}
+
+.demo-tag-mixed {
+  background: #f3e0f7;
+  color: #6b21a8;
+}
+
+.demo-tag-concurrent {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+/* ----------------------------------------------------------
+   3. Handle styling  (scoped to .flow-demo-wrapper)
+   ---------------------------------------------------------- */
+.flow-demo-wrapper .react-flow__handle {
+  width: 8px;
+  height: 8px;
+  background: #004182;
+  border: 2px solid #fff;
+}
+
+/* ----------------------------------------------------------
+   4. Dark theme overrides
+   ---------------------------------------------------------- */
+body.dark .flow-demo-wrapper {
+  --flow-node-bg: #1e1e1e;
+  --flow-node-border: #444746;
+  --flow-divider: #444746;
+  --flow-card-bg: #2b2b2b;
+  --flow-text-primary: #e6e1e5;
+  --flow-text-secondary: #cac4d0;
+}
+
+body.dark .flow-demo-wrapper .demo-tag-dynamic {
+  background: #1a3a5c;
+  color: #7fb8e8;
+}
+
+body.dark .flow-demo-wrapper .demo-tag-native {
+  background: #0d3320;
+  color: #6ee7a0;
+}
+
+body.dark .flow-demo-wrapper .demo-tag-mixed {
+  background: #3b1a5c;
+  color: #c084fc;
+}
+
+body.dark .flow-demo-wrapper .demo-tag-concurrent {
+  background: #3d2e0a;
+  color: #fbbf24;
+}
+
+body.dark .flow-demo-wrapper .react-flow__background pattern line,
+body.dark .flow-demo-wrapper .react-flow__background pattern circle {
+  color: #333;
+}
+
+/* ----------------------------------------------------------
+   5. React Flow control overrides  (within .flow-demo-wrapper)
+   ---------------------------------------------------------- */
+.flow-demo-wrapper .react-flow__controls {
+  bottom: 10px;
+  left: 10px;
+}
+
+.flow-demo-wrapper .react-flow__controls button {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  color: #1e293b;
+}
+
+body.dark .flow-demo-wrapper .react-flow__controls button {
+  background: #1e1e1e;
+  border-color: #444746;
+  color: #e6e1e5;
+}
